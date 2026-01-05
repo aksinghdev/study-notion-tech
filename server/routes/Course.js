@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 
-// Import the Controllers
+// Import the Controllers 
 
 // Course Controllers Import
 const {
@@ -78,6 +78,7 @@ router.post("/getCourseDetails", getCourseDetails);
 // ********************************************************************************************************
 // Category can Only be Created by Admin
 // TODO: Put IsAdmin Middleware here
+
 router.post("/createCategory", Auth, isAdmin, createCategory);
 router.get("/showAllCategories", showAllCategories);
 router.post("/getCategoryPageDetails", categoryPageDetails);
