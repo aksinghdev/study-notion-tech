@@ -17,7 +17,7 @@ import PrivateRoute from "./components/core/auth/PrivateRoute";
 import MyProfile from "./components/core/dashboard/MyProfile";
 import MyCourses from "./components/core/dashboard/MyCourses";
 import MyDashboard from "./components/core/dashboard/MyDashboard";
-import Setting from "./components/core/dashboard/Setting";
+import SettingIndex from "./components/core/dashboard/SettingIndex";
 import AddCourses from "./components/core/dashboard/AddCourses";
 import EnrolledCourses from "./components/core/dashboard/EnrolledCourses";
 import PurchaseHistory from "./components/core/dashboard/PurshesHistory";
@@ -95,7 +95,7 @@ function App() {
           <Route path="my-profile" element={<MyProfile />} />
           <Route path="my-courses" element={<MyCourses />} />
           <Route path="instructor" element={<MyDashboard />} />
-          <Route path="settings" element={<Setting/>} />
+          <Route path="settings" element={<SettingIndex/>} />
           <Route path="add-courses" element={<AddCourses/>} />
           <Route path="enrolled-courses" element={<EnrolledCourses/>} />
           <Route path="purchase-history" element={<PurchaseHistory/>} />

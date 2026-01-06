@@ -41,4 +41,11 @@ export const sidebarLinks = [
     type: ACCOUNT_TYPE.STUDENT,
     icon: "VscHistory",
   },
+  // {
+  //   id: 7,
+  //   name: "Setting",
+  //   path: "/dashboard/setting",
+  //   type: ACCOUNT_TYPE.STUDENT || ACCOUNT_TYPE.INSTRUCTOR,
+  //   icon: "VscHistory",
+  // },
 ];
