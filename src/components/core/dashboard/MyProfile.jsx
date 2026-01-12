@@ -8,7 +8,8 @@ import BtnIcon from "../../common/BtnIcon"
 
 export default function MyProfile() {
   const { user } = useSelector((state) => state.profile)
-  // console.log("Print User Object--->",user);
+  console.log("Print User Object--->",user);
+  // 
   const navigate = useNavigate()
 
   return (
@@ -19,7 +20,7 @@ export default function MyProfile() {
       <div className="flex items-center justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 w-full">
         <div className="flex items-center gap-x-4">
           <img
-            src={user?.Image}
+            src={user?.userImage}
             alt={`profile-${user?.firstName}`}
             className="aspect-square w-[78px] rounded-full object-cover"
           />
@@ -55,7 +56,7 @@ export default function MyProfile() {
         </div>
         <p
           className={`${
-            user?.additionalDetails?.about
+            user?.additionalDetails.about
               ? "text-richblack-5"
               : "text-richblack-400"
           } text-sm font-medium`}

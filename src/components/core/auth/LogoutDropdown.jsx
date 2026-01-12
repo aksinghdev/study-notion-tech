@@ -8,7 +8,7 @@ export default function LogoutDropdown({logoutData}){
              text-richblack-25 ">
                 <BtnIcon onclick={logoutData?.btn2Handler} text={logoutData?.btn2text} 
                 customcss={"text-richblack-200 bg-transparent text-center"} />
-                <BtnIcon text={logoutData?.btn1text}
+                <BtnIcon onclick={logoutData?.btn1Handler} text={logoutData?.btn1text}
                     customcss={"text-richblack-200 bg-transparent text-center"}
                 />
             </div>

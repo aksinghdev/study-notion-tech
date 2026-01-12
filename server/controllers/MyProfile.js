@@ -1,12 +1,13 @@
+const { useId } = require("react");
 const Profile = require("../models/Profile");
 const User = require("../models/User");
-const fileUploadCloudinary = require("../utilities/FileUpload");
+const {fileUploadCloudinary} = require("../utilities/FileUpload");
 
 exports.updateProfile = async (req, res) => {
   try {
     // fetch data
+    const userId = req.user.id;
     const {
-      userId,
       gender,
       dob,
       about,
@@ -14,6 +15,8 @@ exports.updateProfile = async (req, res) => {
       occupation,
       contactNo,
     } = req.body;
+    // print data
+    console.log("getting data",gender,dob,about,highestEducation,occupation,contactNo);
     // data validation
     if (
       !userId ||
@@ -21,7 +24,6 @@ exports.updateProfile = async (req, res) => {
       !dob ||
       !about ||
       !highestEducation ||
-      !occupation ||
       !contactNo
     ) {
       return res.status(401).json({
@@ -30,7 +32,7 @@ exports.updateProfile = async (req, res) => {
       });
     }
     // find user details to get user profile ID
-    console.log("geting userID -- >", userId);
+    console.log("update profile controller geting userID -- >", userId);
     const userDetails = await User.findById(userId);
     const profileId = userDetails.additionalDetails;
     const profileDetails = await Profile.findById(profileId);
@@ -62,7 +64,7 @@ exports.updateProfile = async (req, res) => {
     );
     // return response
     return res.status(200).json({
-      success: false,
+      success: true,
       message: "Your Profile updation Proccess success",
       // profileDetails,
       user,
@@ -137,10 +139,17 @@ exports.getAllUserDetails = async (req, res) => {
 //  update DP of user
 exports.updateDisplayPicture = async (req, res) => {
   try {
-    const displayPicture = req.files.displayPicture;
+
+    // console.log("FILES:", req.files);
+    // console.log("BODY:", req.body);
+    // console.log("USER:", req.user);
+
+
+    const imageFile = req.files.displayPicture;
     const userId = req.user.id;
+    console.log("get user id for update DP--",userId);
     const image = await fileUploadCloudinary(
-      displayPicture,
+      imageFile,
       process.env.FOLDER_NAME,
       1000,
       1000
@@ -148,7 +157,7 @@ exports.updateDisplayPicture = async (req, res) => {
     console.log(image);
     const updatedProfile = await User.findByIdAndUpdate(
       { _id: userId },
-      { image: image.secure_url },
+      { userImage: image.secure_url },
       { new: true }
     );
     res.send({
@@ -157,6 +166,7 @@ exports.updateDisplayPicture = async (req, res) => {
       data: updatedProfile,
     });
   } catch (error) {
+    console.log("Error update display picture controller");
     return res.status(500).json({
       success: false,
       message: error.message,

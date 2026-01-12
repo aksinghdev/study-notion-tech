@@ -10,7 +10,7 @@ const {
 } = require("../controllers/MyProfile");
 
 // ********************************************************************************************************
-//                                      Profile routes
+//                                           Profile routes
 // ********************************************************************************************************
 // Delet User Account
 router.delete("/deleteProfile",Auth, deleteAccount);

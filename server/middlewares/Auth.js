@@ -7,10 +7,13 @@ const User = require("../models/User");
 exports.Auth = async (req, res, next) =>{
     // find token that sends with cookies and body
     try{
+        // token extraction
+        console.log("before Token extraction");
         const token = req.cookies.token ||
-                  req.body.token ||
-                  req.header("Authorisation").replace("Bearer ", "");
-
+        req.body.token ||
+        req.header("Authorization").replace("Bearer ", "");
+        console.log("After Token extraction");
+        
         if(!token){
             return res.status(500).json({
                 success : false,
