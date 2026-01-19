@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+
 import { tabData } from "../../../utils/constants"; 
 import { ACCOUNT_TYPE } from "../../../utils/constants"; 
 import { useState } from "react";
@@ -185,6 +185,7 @@ export default function SignupForm(){
                     />
                 </div>
             </label>
+            {/* password creation */}
             <div className=" flex flex-row gap-4 justify-between items-center">
                 <label className="w-full relative">
                             <p className=" text-[0.875rem] leading-[1.375rem]">

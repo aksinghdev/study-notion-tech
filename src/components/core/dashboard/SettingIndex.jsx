@@ -1,6 +1,8 @@
 
 import EditProfilePicture from "../dashboard/setting/EditProfilePicture";
 import EditProfile from "../dashboard/setting/EditProfile"
+import ChangePassword from "./setting/ChangePassword";
+import DeleteAccount from "./setting/DeleteAccount";
 
 
 export default function SettingIndex(){
@@ -9,6 +11,8 @@ export default function SettingIndex(){
             <EditProfilePicture/>
             
             <EditProfile/>
+            <ChangePassword/>
+            <DeleteAccount/>
         </div>
     );
 }

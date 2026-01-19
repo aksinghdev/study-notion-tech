@@ -1,4 +1,4 @@
-const { useId } = require("react");
+
 const Profile = require("../models/Profile");
 const User = require("../models/User");
 const {fileUploadCloudinary} = require("../utilities/FileUpload");
@@ -15,8 +15,6 @@ exports.updateProfile = async (req, res) => {
       occupation,
       contactNo,
     } = req.body;
-    // print data
-    console.log("getting data",gender,dob,about,highestEducation,occupation,contactNo);
     // data validation
     if (
       !userId ||
@@ -34,11 +32,12 @@ exports.updateProfile = async (req, res) => {
     // find user details to get user profile ID
     console.log("update profile controller geting userID -- >", userId);
     const userDetails = await User.findById(userId);
-    const profileId = userDetails.additionalDetails;
-    const profileDetails = await Profile.findById(profileId);
-    console.log("user details:--", userDetails);
-    console.log("user profileId:--", profileId);
-    console.log("user profileDetails:--", profileDetails);
+    // const profileId = userDetails.additionalDetails;
+    const profileDetails = await Profile.findById(userDetails.additionalDetails);
+    {
+    // console.log("user details:--", userDetails);
+    // console.log("user profileId:--", userDetails.additionalDetails);
+    // console.log("user profileDetails:--", profileDetails);
     // update profile details
     // profileDetails.gender = gender;
     // profileDetails.dob = dob;
@@ -48,10 +47,10 @@ exports.updateProfile = async (req, res) => {
     // profileDetails.contactNo = contactNo;
 
     // await profileDetails.save();
-
+  }
     // find user Profile
     const user = await Profile.findByIdAndUpdate(
-        profileId ,
+        userDetails.additionalDetails ,
       {
         gender,
         dob,
@@ -62,12 +61,13 @@ exports.updateProfile = async (req, res) => {
       },
       { new: true }
     );
+    // fetch updated user with populated profile
+    const updatedUser = await User.findById(userId).populate("additionalDetails").select("-password");
     // return response
     return res.status(200).json({
       success: true,
       message: "Your Profile updation Proccess success",
-      // profileDetails,
-      user,
+      user:updatedUser,
     });
   } catch (error) {
     console.log(error);
@@ -120,16 +120,19 @@ exports.deleteAccount = async (req, res) => {
 exports.getAllUserDetails = async (req, res) => {
   try {
     const id = req.user.id;
+    console.log("Inside get all user details User id ",id);
     const userDetails = await User.findById(id)
       .populate("additionalDetails")
-      .exec();
-    console.log(userDetails);
+      .select("-password");
+      
+    // console.log(userDetails);
     res.status(200).json({
       success: true,
       message: "User Data fetched successfully",
       data: userDetails,
     });
   } catch (error) {
+    console.log("Error get user details controller",error);
     return res.status(500).json({
       success: false,
       message: error.message,

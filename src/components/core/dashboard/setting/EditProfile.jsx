@@ -194,6 +194,7 @@ export default function EditProfile(){
                                         style={{
                                         boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
                                     }}
+                                    defaultValue={user?.additionalDetails.contactNo}
                                     >
                                     {
                                         countrycode.map( (item, index) =>(
@@ -218,7 +219,7 @@ export default function EditProfile(){
                                     name="contactNo"
                                     id="contactNo"
                                     {...register("contactNo",{required:true})}
-
+                                    defaultValue={user?.additionalDetails?.contactNo}
                                     />
                                 </div>
                             </label>
@@ -287,17 +288,17 @@ export default function EditProfile(){
                                     </label>
                         </div>
                     </div>
-                </div>
-                <div className=" flex justify-items-end items-end gap-3 flex-row">
+                <div className=" flex justify-items-end items-end gap-5 flex-row mt-3">
                     <button
                         onClick={()=>{
                             navigate("/dashboard/my-profile");
                         }}
                         className="cursor-pointer rounded-md bg-richblack-700 py-2 px-5 font-semibold text-richblack-50"
-                    >
+                        >
                         Cancel
                     </button>
                     <BtnIcon text="Save" type="submit"/>
+                </div>
                 </div>
             </form>
         

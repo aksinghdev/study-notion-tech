@@ -8,11 +8,11 @@ exports.Auth = async (req, res, next) =>{
     // find token that sends with cookies and body
     try{
         // token extraction
-        console.log("before Token extraction");
+        // console.log("before Token extraction");
         const token = req.cookies.token ||
         req.body.token ||
         req.header("Authorization").replace("Bearer ", "");
-        console.log("After Token extraction");
+        // console.log("After Token extraction");
         
         if(!token){
             return res.status(500).json({
@@ -39,7 +39,7 @@ exports.Auth = async (req, res, next) =>{
         console.log("error ocured in middleware cookies validation",err);
         return res.status(500).json({
             success : false,
-            messagge : "Coockies not verified clearly"
+            messagge : "In middleware Coockies not verified clearly"
         });
     }
 }

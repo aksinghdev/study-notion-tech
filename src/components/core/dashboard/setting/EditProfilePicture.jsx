@@ -69,7 +69,7 @@ export default function EditProfilePicture(){
             {/* for image */}
             <div className="flex items-center gap-x-4">
                 <img
-                    src={ previewSource || user?.Image}
+                    src={ previewSource || user?.userImage}
                     alt={`profile-${user?.firstName}`}
                     className="aspect-square w-[78px] rounded-full object-cover"
                 />

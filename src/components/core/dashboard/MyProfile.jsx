@@ -6,11 +6,12 @@ import { formattedDate } from "../../../utils/dateFormatter"
 import BtnIcon from "../../common/BtnIcon"
 
 
+
 export default function MyProfile() {
   const { user } = useSelector((state) => state.profile)
-  console.log("Print User Object--->",user);
-  // 
-  const navigate = useNavigate()
+  // console.log("Print User Object--->",user);
+  const profileId = user?.additionalDetails
+  const navigate = useNavigate();
 
   return (
     <>
@@ -97,7 +98,13 @@ export default function MyProfile() {
             <div>
               <p className="mb-2 text-sm text-richblack-600">Gender</p>
               <p className="text-sm font-medium text-richblack-5">
-                {user?.additionalDetails?.gender ?? "Add Gender"}
+                {user?.additionalDetails?.gender?? "Add Gender"}
+              </p>
+            </div>
+            <div>
+              <p className="mb-2 text-sm text-richblack-600">Occupation</p>
+              <p className="text-sm font-medium text-richblack-5">
+                {user?.additionalDetails?.occupation?? "Add Your Occupation"}
               </p>
             </div>
           </div>
@@ -111,16 +118,24 @@ export default function MyProfile() {
             <div>
               <p className="mb-2 text-sm text-richblack-600">Phone Number</p>
               <p className="text-sm font-medium text-richblack-5">
-                {user?.additionalDetails?.contactNumber ?? "Add Contact Number"}
+                {user?.additionalDetails?.contactNo ?? "Add Contact Number"}
               </p>
             </div>
             <div>
               <p className="mb-2 text-sm text-richblack-600">Date Of Birth</p>
               <p className="text-sm font-medium text-richblack-5">
-                {formattedDate(user?.additionalDetails?.dateOfBirth) ??
+                {formattedDate(user?.additionalDetails?.dob) ??
                   "Add Date Of Birth"}
               </p>
             </div>
+            {/* occupation and Education */}
+            <div>
+              <p className="mb-2 text-sm text-richblack-600">Education</p>
+              <p className="text-sm font-medium text-richblack-5">
+                {user?.additionalDetails?.highestEducation ?? "Add Your Education"}
+              </p>
+            </div>
+            
           </div>
         </div>
       </div>

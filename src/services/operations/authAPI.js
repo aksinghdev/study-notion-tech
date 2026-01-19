@@ -6,6 +6,7 @@ import { setUser } from "../../slices/profileSlice";
 import { addToCart, removeFromCart, resetCart } from "../../slices/cartSlice";
 import { endpoints } from "../api";
 import { apiConnector } from "../apiConnector";
+import { profileEndpoints } from "../api";
 
 const {
     LOGIN_API,
@@ -14,6 +15,11 @@ const {
     RESETPASSWORD_API,
     SIGNUP_API,
 } = endpoints;
+
+const {
+    GET_USER_DETAILS_API,
+    GET_USER_ENROLLED_COURSES_API,
+} = profileEndpoints
 
 
 export function sendOtp (email, navigate){
@@ -88,103 +94,59 @@ export function signupCall(firstName, lastName, email, password, confirmPassword
 
 
 // login api call
+export function loginApiCall(email, password, AccountType, navigate) {
+  return async (dispatch) => {
+    const toastId = toast.loading("Loading...");
+    dispatch(setLoading(true));
 
-// export function loginApiCall(email, password, navigate) {
-//   return async (dispatch) => {
-//     const toastId = toast.loading("Loading...")
-//     dispatch(setLoading(true))
+    try {
+      // LOGIN API
+      const result = await apiConnector("POST", LOGIN_API, {
+        email,
+        password,
+        AccountType,
+      });
 
-//     console.log(" email--->",email);
-//     console.log(" password--->",password);
-//     // const bodyData ={
-//     //     email,
-//     //     password,
-//     // }
-//     try {
-//         console.log(" LOGIN_API----",endpoints.LOGIN_API)
-//       const response = await apiConnector("POST",
-//         endpoints.LOGIN_API,
-//         {
-//             email,
-//             password
-//         },
-//     )
-//       console.log(" email--->",email);
-//       console.log(" password--->",password);
-//       console.log("LOGIN API RESPONSE............", response);
+      if (!result.data.success) {
+        throw new Error(result.data.message);
+      }
 
-//       if (!response.data.success) {
-//         throw new Error(response.data.message)
-//       }
+      const token = result.data.token;
 
-//       toast.success("Login Successful")
-//       dispatch(setToken(response.data.token))
-//     //   const userImage = response.data?.user?.image
-//     //     ? response.data.user.image
-//     //     : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName} ${response.data.user.lastName}`
-//     //   dispatch(setUser({ ...response.data.user, image: userImage }))
-//       localStorage.setItem("token", JSON.stringify(response.data.token))
-//       navigate("/dashboard/my-profile")
-//     } catch (error) {
-//       console.log("LOGIN API ERROR............", error)
-//       if (error.response && error.response.status === 401) {
-//         toast.error("Invalid email or password");
-//         } else {
-//             toast.error("Login failed. Please try again.");
-//         }
-//     }
-//     dispatch(setLoading(false))
-//     toast.dismiss(toastId)
-//   }
-// }
+      dispatch(setToken(token));
+      localStorage.setItem("token", token);
 
-
-export function loginApiCall(email, password, AccountType, navigate){
-    return async (dispatch) => {
-        const toastId = toast.loading(" Loading...")
-        dispatch(setLoading(true))
-        // console.log("email inside login call ", email);
-        try{
-            // console.log("email inside login call try ", email);
-            // console.log("PRINT LOGIN API ---->>>",LOGIN_API);
-            const responce = await apiConnector("POST", LOGIN_API,{
-                email : email,
-                password : password,
-                AccountType: AccountType,
-            })
-            // console.log("email inside login call ", email);
-            // console.log("Lgin API response--->",responce);
-            if(!responce.data.success){
-                throw new Error(responce.data.message);
-            }
-
-            // succefullly login
-            toast.success("Loged In Successfully")
-            dispatch(setToken(responce.data.token))
-            // user setup
-            const userImage = responce.data.existUserLogin.userImage ? responce.data.existUserLogin.userImage :
-            `https://api.dicebear.com/5.x/initials/svg?seed=${responce.data.existUserLogin.firstName} ${responce.data.existUserLogin.lastName}`
-            dispatch(setUser({...responce.data.existUserLogin, Image: userImage}))
-            // update localstorage
-            localStorage.setItem("token", responce.data.token)
-            localStorage.setItem("user", responce.data.user)
-            // navigate to dashboard
-            navigate("/dashboard/my-profile")
-
+      // FETCH USER DETAILS
+      const response = await apiConnector(
+        "GET",
+        GET_USER_DETAILS_API,
+        null,
+        {
+          Authorization: `Bearer ${token}`,
         }
-        catch (error) {
-            console.log("LOGIN API ERROR............", error)
-            if (error.response && error.response.status === 401) {
-                toast.error("Invalid email or password");
-            } else {
-                toast.error("Login failed. Please try again.");
-            }
-            toast.error("Login Failed ")
+      );
+
+      const userData = response.data.data;
+
+      const userImage = userData.image
+        ? userData.image
+        : `https://api.dicebear.com/5.x/initials/svg?seed=${userData.firstName} ${userData.lastName}`;
+
+      dispatch(setUser({ ...userData, image: userImage }));
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      toast.success("Logged in successfully");
+      navigate("/dashboard/my-profile");
+    } catch (error) {
+      console.log("LOGIN API ERROR", error);
+      toast.error(error.message || "Login failed");
     }
-    dispatch(setLoading(false))
-    toast.dismiss(toastId)
-    }
+
+    dispatch(setLoading(false));
+    toast.dismiss(toastId);
+  };
 }
+
 
 export function logOut(navigate){
     console.log("inside log out thunk triggred");
