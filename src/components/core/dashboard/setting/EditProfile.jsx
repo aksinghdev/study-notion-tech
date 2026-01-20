@@ -22,7 +22,7 @@ export default function EditProfile(){
     } = useForm();
 
     const submitProfileForm = async (data) =>{
-        console.log("profile form data--->",data);
+        // console.log("profile form data--->",data);
         try{
             dispatch(updateProfile(token,data,navigate));
         }
@@ -198,7 +198,9 @@ export default function EditProfile(){
                                     >
                                     {
                                         countrycode.map( (item, index) =>(
-                                            <option key={index} value={item.country} className=" bg-richblack-900 text-richblack-200">
+                                            <option key={index}
+                                            value={item.country}
+                                            className=" bg-richblack-900 text-richblack-200">
                                                 {/*  */}
                                                 <p className=" opacity-0 visible m-2">
                                                     {item.country}

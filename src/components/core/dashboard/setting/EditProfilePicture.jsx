@@ -9,7 +9,7 @@ export default function EditProfilePicture(){
 
     const {user} = useSelector((state) => state.profile);
     const {token} = useSelector((state) => state.auth);
-    console.log("inside edit DP Print User Object--->",user);
+    // console.log("inside edit DP Print User Object--->",user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -48,7 +48,7 @@ export default function EditProfilePicture(){
             setLoading(true);
             const formData = new FormData();
             formData.append("displayPicture", imageFile)
-            console.log("formData -->", formData);
+            // console.log("formData -->", formData);
             dispatch(updateDisplayPicture(token, formData,navigate)).then(() =>{
                 setLoading(false)
             })

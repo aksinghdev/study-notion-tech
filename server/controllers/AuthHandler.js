@@ -9,6 +9,8 @@ const cookies = require("cookies");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const { json } = require("express");
+const { useId } = require("react");
+const { data } = require("react-router-dom");
 
 // Send otp for sign up Handler
 exports.sendOTP = async (req ,res)=>{
@@ -292,23 +294,27 @@ exports.sendOTP = async (req ,res)=>{
 
     exports.changePassword = async (req, res) =>{
         try{
-            const {email, oldPassword, newPassword, confirmNewPassword} = req.body;
-            console.log("fetched data from req.body:-->",
-                email,
+            console.log("inside change password controller called");
+            // fetch user id from auth middleware
+            const userId = req.user.id;
+
+            // fetch data 
+            const { oldPassword, newPassword, confirmPassword} = req.body;
+            console.log("inside change password fetched data from req.body:-->",
                 oldPassword,
                 newPassword,
-                confirmNewPassword
+                confirmPassword
             );
 
             // data validation
-            if(!oldPassword || !newPassword || !confirmNewPassword || !email){
+            if(!oldPassword || !newPassword || !confirmPassword ){
                 return res.status(401).json({
                     success : false,
                     message : "Please Enter Input Fields"
                 });
             }
             // match new and confirm new password
-            if(newPassword !== confirmNewPassword){
+            if(newPassword !== confirmPassword){
                 return res.status(402).json({
                     success : false,
                     message : "Confirm password not matched, please Enter again"
@@ -316,34 +322,43 @@ exports.sendOTP = async (req ,res)=>{
             }
             
             // find user in db
-            let currentUser = await User.findOne({email});
+            const user = await User.findById(userId);
             // if user not found
-            if(!currentUser){
+            if(!user){
                 return res.status(402).json({
                     success : false,
                     message : "User not register here, please go and SignUp"
                 });
             }
-            // user found then matchig the password input by user
-            let newHashedPassword = await bcrypt.hash(confirmNewPassword, 10);
-            if(await bcrypt.compare(oldPassword, currentUser.password)){
-                let updateUser = await User.findOneAndUpdate(
-                    {email:currentUser.email},
-                    {password : newHashedPassword},
-                    {returnDocument : "after", upsert : false}
-                );
-                return res.status(200).json({
-                    success : true,
-                    updateUser,
-                    message : "Your Password successfully Changed"
-                });
-            }else{
-                return res.status(403).json({
-                    success : false,
-                    message : "Enter valid old password"
-                });
-            }
+            // user foud then compare old password 
+            const isPasswordMatch = await bcrypt.compare(
+                oldPassword,
+                user.password
+            )
 
+            if(!isPasswordMatch){
+                return res.status(403).json({
+                    success:false,
+                    message: "Current password incorrect"
+                })
+            }
+            // hash password
+            const hashPassword = await bcrypt.hash(confirmPassword,10); 
+            // update user password
+            const updatedUser = await User.findByIdAndUpdate(
+                userId,
+                {password: hashPassword},
+                {
+                    new: true,
+                    runValidators : true
+                }
+            )
+            // return success status
+            return res.status(200).json({
+                success: true,
+                message: "Your password updated succefully",
+                data:updatedUser
+            })
         }
         catch(error){
             console.log(error);

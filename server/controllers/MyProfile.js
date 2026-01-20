@@ -101,10 +101,14 @@ exports.deleteAccount = async (req, res) => {
 
     // delelte account
     const DeleteAccount = await User.findByIdAndDelete({ _id: id });
-
+    const deletedUser ={
+      deleteUserProfileData,
+      DeleteAccount
+    }
     // return response
     return res.status(201).json({
       success: true,
+      deletedUser,
       message: "Your Account Deleted succefully ",
     });
   } catch (err) {

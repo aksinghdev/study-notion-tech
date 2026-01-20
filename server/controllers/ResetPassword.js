@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 
 // *******************************************
-// Reset password code ### FORGOT PASS ###
+// Reset password Code that send reset link to email  ###
 // *******************************************
     // get email from req
     // check user from your db and validate this email
@@ -87,10 +87,11 @@ exports.resetPasswordToken = async (req, res) =>{
 exports.resetPassword = async (req, res) =>{
     try{
         // fetched data
+
+        console.log("inside redet password controller feched data token:......");
         const {token, newPassword, confirmNewPassword} = req.body;
-        // console.log("feched data token:......", token);
-        // console.log("feched data password:......", newPassword);
-        // console.log("feched data newPassword:......", confirmNewPassword);
+        console.log("feched data password:......", newPassword);
+        console.log("feched data newPassword:......", confirmNewPassword);
         // validate the data
         if(!token || !newPassword || !confirmNewPassword){
             return res.status(400).json({
