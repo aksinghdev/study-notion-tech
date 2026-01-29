@@ -162,10 +162,11 @@ export default function SignupForm(){
                         countrycode.map( (item, index) =>(
                             <option key={index} value={item.country} className=" bg-richblack-900 text-richblack-200">
                                 {/*  */}
-                                <p className=" opacity-0 visible m-2">
-                                    {item.country}-{item.country}
+                                <p className=" opacity-0 visible m-2 flex gap-5 flex-col ">
+                                   <p className=" mx-2">{item.country}</p> 
+                                   <p>{item.code}</p> 
                                 </p>
-                                {item.code}
+                            
                             </option>
                         ) )
                     }

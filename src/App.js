@@ -21,9 +21,15 @@ import SettingIndex from "./components/core/dashboard/SettingIndex";
 import AddCourses from "./components/core/dashboard/AddCourses";
 import EnrolledCourses from "./components/core/dashboard/EnrolledCourses";
 import PurchaseHistory from "./components/core/dashboard/PurshesHistory";
+import CartIndex from "./components/core/dashboard/Cart/CartIndex";
+import { useSelector } from "react-redux";
+import { ACCOUNT_TYPE } from "./utils/constants";
 
 
 function App() {
+
+  const {user} = useSelector((state => state.auth));
+
   return (
     <div className=" w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
       {/* navbar section */}
@@ -86,6 +92,7 @@ function App() {
           }
         />
 
+        {/* All dashboard routes */}
         <Route path="/dashboard" element={<Dashboard/>} >
           {/* <Route index element={
             <PrivateRoute>
@@ -97,8 +104,22 @@ function App() {
           <Route path="instructor" element={<MyDashboard />} />
           <Route path="settings" element={<SettingIndex/>} />
           <Route path="add-courses" element={<AddCourses/>} />
+
+          <Route path="cart" element={<CartIndex/>} />
           <Route path="enrolled-courses" element={<EnrolledCourses/>} />
           <Route path="purchase-history" element={<PurchaseHistory/>} />
+          
+          {/* {
+            user?.accountType === ACCOUNT_TYPE.STUDENT && (
+              <>
+                <Route path="cart" element={<CartIndex/>} />
+                <Route path="enrolled-courses" element={<EnrolledCourses/>} />
+                <Route path="purchase-history" element={<PurchaseHistory/>} />
+              </>
+            )
+          } */}
+
+
         </Route>
          
       </Routes>

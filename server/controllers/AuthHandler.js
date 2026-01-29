@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const OTP = require("../models/Otp");
+const OTP = require("../models/OTP");
 const Profile = require("../models/Profile");
 const otpGenerator = require("otp-generator");
 const bcrypt = require("bcrypt");
@@ -18,6 +18,7 @@ exports.sendOTP = async (req ,res)=>{
     try{
         // fetching data from request
         const{email} = req.body;
+        // email = email.trim().toLowerCase();
         console.log("getting Email today ->",email);
         // check email existance
         const existEmail = await User.findOne({email});
@@ -115,14 +116,15 @@ exports.sendOTP = async (req ,res)=>{
 
             // validate the data
             if(!firstName || !lastName || !email || !password || !confirmPassword || !contactNumber){
-                return res.status(402).json({
+                return res.status(400).json({
                     success :false,
                     message: "please enter All details carefuly"
                 });
             }
+            // email = email.trim().toLowerCase();
             // match both password
             if(password !== confirmPassword){
-                return res.status(402).json({
+                return res.status(400).json({
                     success :false,
                     message: "password not matched, please enter password carefuly"
                 });
@@ -131,7 +133,7 @@ exports.sendOTP = async (req ,res)=>{
             // check for existing user 
             const existUser = await User.findOne({email});
             if(existUser){
-                return res.status(403).json({
+                return res.status(409).json({
                     success:false,
                     message: "This User already registered, please go for login",
                 });
@@ -140,17 +142,18 @@ exports.sendOTP = async (req ,res)=>{
             console.log("user email is--->",email);
             const recentOTP = await OTP.findOne({email}).sort({ createdAt: -1 }).limit(1);
             
+            console.log("getting recent otp:-->",recentOTP);
             console.log("getting recent otp:-->",recentOTP.otp);
             // validation of otp
             if(!recentOTP){
-                return res.status(401).json({
+                return res.status(404).json({
                     success: false,
                     message: "OTP not found"
                 }); 
             }
             // matching the otp
-            if(recentOTP.otp !== otp){
-                return res.status(405).json({
+            if(recentOTP.otp.toString() !== otp.toString()){
+                return res.status(401).json({
                     success: false,
                     message: "Invalid otp"
                 });
@@ -177,7 +180,9 @@ exports.sendOTP = async (req ,res)=>{
                 contactNumber,
                 userImage: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
             });
+            await OTP.deleteMany({ email });
             console.log("created User is:-->",createdUser);
+            createdUser.password = undefined;
             // return successful responce
             return res.status(200).json({
                 success: true,
@@ -187,7 +192,7 @@ exports.sendOTP = async (req ,res)=>{
         }
         catch(error){
             console.error(error);
-            return res.status(406).json({
+            return res.status(500).json({
                 success: false,
                 message: "Sign UP error, user cannot register, please try again"
             });

@@ -65,6 +65,7 @@ function NavBar() {
         <Link to={"/"}>
           <img src={logo} width={150} height={40} loading="lazy" alt="age" />
         </Link>
+        {/* Navbar all pages buttons */}
         <nav className=" mx-auto flex flex-row justify-between items-center">
           <ul className=" flex flex-row gap-x-3 items-center justify-center font-inter font-medium text-richblack-25">
             {NavbarLinks.map((link, index) => (
@@ -87,15 +88,19 @@ function NavBar() {
                                                         w-8 h-8 opacity-80 z-10 transition-all duration-100 group-hover:visible group-hover:opacity-100
                                                     "
                         ></div>
-                        {subLink.length ? (
-                          subLink.map((link, index) => (
-                            <Link to={`${link.link}`} key={index}>
-                              <p className=" text-richblack-900">{link.name}</p>
-                            </Link>
-                          ))
-                        ) : (
-                          <div className="group-hover:opacity-0"></div>
-                        )}
+                        {
+                          !subLink ? (
+                            <div></div>
+                          ) : !subLink.length ? (
+                            <div></div>
+                          ) : (
+                            subLink.map((link, index) => (
+                              <Link to={`${link.link}`} key={index}>
+                                <p className=" text-richblack-900">{link.name}</p>
+                              </Link>
+                            ))
+                          ) 
+                        }
                       </div>
                     </div>
                   </div>
@@ -150,19 +155,16 @@ function NavBar() {
               </button>
             </Link>
           )}
-          {
-            token != null && (
-              // <button
-              //   className=" bg-richblack-800 border-[1px] border-richblack-700 px-2 py-1 rounded-lg
-              //                    hover:text-richblack-100  hover:bg-richblack-700 transition-all duration-300"
-              //   // onClick={handleLogout}
-              // >
-              //   Log Out
-              // </button>
-              <ProfileDropDown/>
-            )
-
-          }
+          {token != null && (
+            // <button
+            //   className=" bg-richblack-800 border-[1px] border-richblack-700 px-2 py-1 rounded-lg
+            //                    hover:text-richblack-100  hover:bg-richblack-700 transition-all duration-300"
+            //   // onClick={handleLogout}
+            // >
+            //   Log Out
+            // </button>
+            <ProfileDropDown />
+          )}
         </div>
       </div>
     </div>

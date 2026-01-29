@@ -1,11 +1,9 @@
 import {toast} from "react-hot-toast";
 import { profileEndpoints, settingsEndpoints, endpoints } from "../api";
 import { setUser } from "../../slices/profileSlice";
-import { setToken } from "../../slices/authSlice";
 import { logOut } from "./authAPI";
 import { apiConnector } from "../apiConnector";
 import { setLoading } from "../../slices/authSlice";
-import { resume } from "react-dom/server";
 
 const {
   UPDATE_DISPLAY_PICTURE_API,
@@ -42,13 +40,29 @@ export function updateDisplayPicture (token, formData,navigate){
             if(!response.data.success){
                 throw new Error(response.data.message)
             }
-            toast.success("Your DP updated succefully")
-            // update localstorage
-            localStorage.setItem("token", response.data.token)
-            localStorage.setItem("user", response.data.user)
+
+            // fetch updated user
+            const result = await apiConnector(
+                "GET",
+                GET_USER_DETAILS_API,
+                null,
+                {
+                    Authorization: `Bearer ${token}`,
+                }
+            )
+            const userData = result.data.data;
+            const userImage = userData.userImage
+            ? userData.userImage
+            : `https://api.dicebear.com/5.x/initials/svg?seed=${userData.firstName} ${userData.lastName}`;
+            
+            // update redux and localstorage
+            const updatedUser = {...userData, image:userImage}
+            dispatch(setUser(updatedUser));
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+
             // navigate to dashboard
+            toast.success("Your DP updated succefully")
             navigate("/dashboard/my-profile");
-            dispatch(setUser(response.data.user));
         }
         catch(error){
             console.log("UPDATE_DISPLAY_PICTURE_API API ERROR............", error)

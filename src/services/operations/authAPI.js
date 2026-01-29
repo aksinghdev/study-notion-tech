@@ -85,6 +85,7 @@ export function signupCall(firstName, lastName, email, password, confirmPassword
         catch(error){
             console.log("signUp api error")
             toast.error("SignUp failed !")
+            console.log(error);
         }
         dispatch(setLoading(false));
         toast.dismiss(toastId);
