@@ -92,8 +92,6 @@ export function signupCall(firstName, lastName, email, password, confirmPassword
     }
 }
 
-
-
 // login api call
 export function loginApiCall(email, password, AccountType, navigate) {
   return async (dispatch) => {

@@ -3,7 +3,7 @@
 export const ACCOUNT_TYPE = {
     STUDENT: "student",
     INSTRUCTOR: "instructor",
-    ADMIN: "Admin",
+    ADMIN: "admin",
   }
   
 export const COURSE_STATUS = {

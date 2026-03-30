@@ -17,8 +17,8 @@ exports.sendOTP = async (req ,res)=>{
     
     try{
         // fetching data from request
-        const{email} = req.body;
-        // email = email.trim().toLowerCase();
+        let {email} = req.body;
+        email = email.trim().toLowerCase();
         console.log("getting Email today ->",email);
         // check email existance
         const existEmail = await User.findOne({email});
@@ -111,9 +111,10 @@ exports.sendOTP = async (req ,res)=>{
     exports.signUp = async (req, res) =>{
         try{
             const {
-                firstName, lastName, email, password, confirmPassword, accountType, contactNumber,otp
+                firstName, lastName, password, confirmPassword, accountType, contactNumber,otp
             } = req.body
-
+            let {email} = req.body;
+            email = email.trim().toLowerCase();
             // validate the data
             if(!firstName || !lastName || !email || !password || !confirmPassword || !contactNumber){
                 return res.status(400).json({

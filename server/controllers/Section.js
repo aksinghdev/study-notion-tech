@@ -7,6 +7,7 @@ exports.creatSection = async (req , res ) =>{
     try{
         // fetch data 
         const {sectionName, courseID} = req.body;
+        // console.log("fetched section data", sectionName, courseID);
         // validate the data
         if(!sectionName || !courseID){
             return res.status(401).json({

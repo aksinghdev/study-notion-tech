@@ -6,7 +6,8 @@ import BtnIcon from "../../../common/BtnIcon";
 import countrycode from "../../../../data/countrycode.json"
 import { updateProfile } from "../../../../services/operations/settingAPI"
 
-const genders = ["Male", "Female", "Non-Binary", "Prefer not to say", "Other"]
+// const genders = ["Male", "Female", "Non-Binary", "Prefer not to say", "Other"]
+const genders = ["Male", "Female", "Other","Animal"]
 
 export default function EditProfile(){
 

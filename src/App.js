@@ -18,7 +18,7 @@ import MyProfile from "./components/core/dashboard/MyProfile";
 import MyCourses from "./components/core/dashboard/MyCourses";
 import MyDashboard from "./components/core/dashboard/MyDashboard";
 import SettingIndex from "./components/core/dashboard/SettingIndex";
-import AddCourses from "./components/core/dashboard/AddCourses";
+import AddCourseIndex from "./components/core/dashboard/courses/addCourse/AddCourseIndex";
 import EnrolledCourses from "./components/core/dashboard/EnrolledCourses";
 import PurchaseHistory from "./components/core/dashboard/PurshesHistory";
 import CartIndex from "./components/core/dashboard/Cart/CartIndex";
@@ -103,13 +103,13 @@ function App() {
           <Route path="my-courses" element={<MyCourses />} />
           <Route path="instructor" element={<MyDashboard />} />
           <Route path="settings" element={<SettingIndex/>} />
-          <Route path="add-courses" element={<AddCourses/>} />
+          <Route path="add-course" element={<AddCourseIndex/>} />
 
           <Route path="cart" element={<CartIndex/>} />
           <Route path="enrolled-courses" element={<EnrolledCourses/>} />
           <Route path="purchase-history" element={<PurchaseHistory/>} />
           
-          {/* {
+          {
             user?.accountType === ACCOUNT_TYPE.STUDENT && (
               <>
                 <Route path="cart" element={<CartIndex/>} />
@@ -117,7 +117,14 @@ function App() {
                 <Route path="purchase-history" element={<PurchaseHistory/>} />
               </>
             )
-          } */}
+          } 
+          {
+            user?.ACCOUNT_TYPE === ACCOUNT_TYPE.INSTRUCTOR && (
+              <>
+              
+              </>
+            )
+          }
 
 
         </Route>
