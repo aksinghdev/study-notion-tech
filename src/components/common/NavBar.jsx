@@ -13,6 +13,7 @@ import { ACCOUNT_TYPE } from "../../utils/constants";
 // import { logOut } from "../../services/operations/authAPI";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { logOut } from "../../services/operations/authAPI";
 
 function NavBar() {
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ function NavBar() {
   const { user } = useSelector((state) => state.profile);
   const { totalItems } = useSelector((state) => state.cart);
   // console.log("Base Url",process.env.REACT_APP_BASE_URL);
+
+  // console.log("token inside navbar",token);
 
   // const subLink = [
   //     {
@@ -55,9 +58,7 @@ function NavBar() {
     return matchPath({ path: route }, location.pathname);
   };
 
-  // const handleLogout = () => {
-  //   dispatch(logOut(navigate));
-  // };
+  
   return (
     <div className=" bg-richblack-800  justify-center flex w-full h-12 border-b-[1px] border-richblack-700  ">
       <div className=" w-11/12 flex items-center justify-between mx-auto max-w-maxContent bg-richblack- ">
@@ -156,14 +157,16 @@ function NavBar() {
             </Link>
           )}
           {token != null && (
-            // <button
-            //   className=" bg-richblack-800 border-[1px] border-richblack-700 px-2 py-1 rounded-lg
-            //                    hover:text-richblack-100  hover:bg-richblack-700 transition-all duration-300"
-            //   // onClick={handleLogout}
-            // >
-            //   Log Out
-            // </button>
+            <>
+            {/* <button
+              className=" bg-richblack-800 border-[1px] border-richblack-700 px-2 py-1 rounded-lg
+                               hover:text-richblack-100  hover:bg-richblack-700 transition-all duration-300"
+              onClick={handleLogout}
+            >
+              Log Out
+            </button> */}
             <ProfileDropDown />
+            </>
           )}
         </div>
       </div>

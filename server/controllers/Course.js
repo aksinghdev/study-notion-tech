@@ -20,12 +20,19 @@ exports.createCourse = async (req, res ) =>{
         // fetch data form body and file path
         let {courseName, courseDescription, youWillLearn, tag,category, status, price,instructions} = req.body;
         // get file
-        const thumbnail = req.files.thumbnailImg;
+        // const thumbnail = req.files.thumbnailImg;
 
         console.log("fetching data--> ",courseName,  courseDescription,  youWillLearn,  price,  tag,  category,  instructions);
 
         // validation of data
-        if(!courseName || !courseDescription || !youWillLearn || !tag || !price || !category || !thumbnail){
+        if(!courseName ||
+            !courseDescription ||
+            !youWillLearn ||
+            !tag || 
+            !price ||
+            !category
+            // || !thumbnail
+            ){
             return res.status(401).json({
                 success : false,
                 message : 'Please provide all details and file'
@@ -54,18 +61,20 @@ exports.createCourse = async (req, res ) =>{
             });
         }
         // upload thumbnail Image to cloudinary
-        const uploadedThumbnail = await fileUploadCloudinary(thumbnail, process.env.FOLDER_NAME);
-
+        // if(!thumbnail){
+        //     const uploadedThumbnail = await fileUploadCloudinary(thumbnail, process.env.FOLDER_NAME);
+        // }else{
+        //     const uploadedThumbnail = {secure_url : ""}
+        // }
         // create an entry to db for new course
         const newCourse = await Course.create({
             courseName,
             courseDescription,
             whatYouLearn : youWillLearn,
-            thumbnail : uploadedThumbnail.sequre_url,
             price,
 			tag: tag,
 			category: categoryDetails._id,
-			thumbnail: uploadedThumbnail.secure_url,
+			// thumbnail: uploadedThumbnail.secure_url,
 			status: status,
 			instructions: instructions,
             instructor : Instructor._id,

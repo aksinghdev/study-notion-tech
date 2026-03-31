@@ -39,7 +39,7 @@ export default function RenderSteps(){
                 {item.id !== steps.length &&
                     <div
                         className={` w-[33%] h-[calc(34px/2)] border-dashed border-b-2 relative ${
-                            step < item.id ? " border-richblack-300":" border-yellow-50"
+                            step <= item.id ? " border-richblack-300":" border-yellow-50"
                         } `}
                     ></div> }
                     </>

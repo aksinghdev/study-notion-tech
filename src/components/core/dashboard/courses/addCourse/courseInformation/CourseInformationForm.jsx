@@ -3,14 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineCurrencyRupee } from "react-icons/hi"
 import { useEffect, useState } from "react";
-import { fetchCourseCategories } from "../../../../../../services/operations/courseDetailsAPI";
+import { addCourseDetails, editCourseDetails, fetchCourseCategories } from "../../../../../../services/operations/courseDetailsAPI";
 import TagInput from "./TagInput"
 import RequirementsFields from "./RequirementsFields";
+import { setStep, setCourse } from "../../../../../../slices/courseSlice";
+import BtnIcon from "../../../../../common/BtnIcon"
+import toast from "react-hot-toast";
 
 export default function CourseInformationForm(){
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {course, editCourse} = useSelector( (state) => state.course);
+    const {token} = useSelector( (state) => state.auth);
     const {
         register,
         handleSubmit,
@@ -47,8 +51,9 @@ export default function CourseInformationForm(){
         getCategories();
     },[]);
 
+    // required field updation UI
+    useEffect(() => {},[])
     // check for form update
-
     const isFormUpdated = () => {
         const currentValues = getValues()
         // console.log("changes after editing form values:", currentValues)
@@ -65,18 +70,88 @@ export default function CourseInformationForm(){
         return true
         }else
     return false
-} 
+    } 
 
     // submit handler logic function
 
     const onSubmit = async (data) =>{
+        // when form is in edit mode
+        if(editCourse){
+            if(isFormUpdated){
+                const currentValues = getValues();
+                const formData = new FormData();
+                formData.append("courseId",course._id)
+                if (currentValues.courseTitle !== course.courseName) {
+                formData.append("courseName", data.courseTitle)
+                }
+                if (currentValues.courseShortDesc !== course.courseDescription) {
+                formData.append("courseDescription", data.courseShortDesc)
+                }
+                if (currentValues.coursePrice !== course.price) {
+                formData.append("price", data.coursePrice)
+                }
+                if (currentValues.courseTags.toString() !== course.tag.toString()) {
+                formData.append("tag", JSON.stringify(data.courseTags))
+                }
+                if (currentValues.courseBenefits !== course.whatYouWillLearn) {
+                formData.append("whatYouWillLearn", data.courseBenefits)
+                }
+                if (currentValues.courseCategory._id !== course.category._id) {
+                formData.append("category", data.courseCategory)
+                }
+                if (
+                currentValues.courseRequirements.toString() !==
+                course.instructions.toString()
+                ) {
+                formData.append(
+                    "instructions",
+                    JSON.stringify(data.courseRequirements)
+                )
+                // if(currentValues.courseImage !== course.thumbnail){
+                //     formData.append("thumbnail",data.courseImage)
+                // }
 
+                setLoading(true)
+                const result = await editCourseDetails(formData, token)
+                setLoading(false)
+                if(result){
+                    dispatch(setStep(2))
+                    dispatch(setCourse(result))
+                }
+
+            }else{
+                toast.error("No changes made to the form")
+            }
+            return
+            }
+        }
+        // when form is in normal mode (fresh course creation)
+            const formData = new FormData()
+            formData.append("courseName", data.courseTitle)
+            formData.append("courseDescription", data.courseShortDesc)
+            formData.append("price", data.coursePrice)
+            formData.append("tag", JSON.stringify(data.courseTags))
+            formData.append("whatYouWillLearn", data.courseBenefits)
+            formData.append("category", data.courseCategory)
+            // formData.append("status", COURSE_STATUS.DRAFT)
+            formData.append("instructions", JSON.stringify(data.courseRequirements))
+            formData.append("thumbnail", data.courseImage)
+            setLoading(true)
+            const result = await addCourseDetails(formData, token)
+            console.log(result);
+            if (result) {
+            dispatch(setStep(2))
+            dispatch(setCourse(result))
+            }
+            setLoading(false)
     }
+
+    
 
     return(
         <form
         className=" space-y-8 border-[1px] border-richblack-700 rounded-md bg-richblack-800 p-6"
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         >
             {/* course title */}
             <div className=" flex flex-col space-y-2">
@@ -143,7 +218,7 @@ export default function CourseInformationForm(){
                 <input
                     id="coursePrice"
                     name="coursePrice"
-                    placeholder="       Course Price"
+                    placeholder= {`Course Price`}
                     {...register("coursePrice", {
                     required: true,
                     valueAsNumber: true,
@@ -209,7 +284,7 @@ export default function CourseInformationForm(){
             {/* benifits of the course */}
             <div className=" flex flex-col space-y-2">
                 <label className=" text-sm text-richblack-5" htmlFor="courseBenifits">
-                    Benifits of The Course <sup className=" bg-pink-200">*</sup>
+                    Benifits of The Course <sup className=" h-fit bg-pink-200">*</sup>
                 </label>
                 <textarea
                     type="textarea"
@@ -250,6 +325,24 @@ export default function CourseInformationForm(){
                 errors={errors}
                 register={register}
             />
+            {/* buttons for next and save */}
+            <div className="flex justify-end gap-x-2">
+                {editCourse && (
+                    <button
+                        disabled={loading}
+                        onClick={()=>dispatch(setStep(2))}
+                        className={`flex cursor-pointer items-center gap-x-2 rounded-md bg-richblack-300 py-[8px] px-[20px] font-semibold text-richblack-900`}
+                    >
+                        Continue Without Saving
+                    </button>
+                )}
+                <BtnIcon
+                    text={!editCourse ? "Next" : "Save Changes"}
+                    disabled={loading}
+                >
+
+                </BtnIcon>
+            </div>
         </form>
     );
 }

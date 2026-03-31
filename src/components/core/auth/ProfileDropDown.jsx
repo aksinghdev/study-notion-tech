@@ -58,7 +58,8 @@ function ProfileDropDown() {
 
       {/* Dropdown */}
       {dropDownOpen && (
-        <div onClick={(e) => e.stopPropagation()}>
+        <div
+         onClick={(e) => e.stopPropagation()}>
           <LogoutDropdown logoutData={logoutData} />
         </div>
       )}

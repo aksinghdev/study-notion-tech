@@ -5,7 +5,7 @@ let token = null
 
 try{
     const storedToken = localStorage.getItem("token");
-    token = storedToken ? JSON.parse(storedToken) : null;
+    token = storedToken ? storedToken : null;
 }
 catch(error){
     console.error("failed to read token form local storage ", error);
