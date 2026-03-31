@@ -22,9 +22,7 @@ function NavBar() {
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   const { totalItems } = useSelector((state) => state.cart);
-  // console.log("Base Url",process.env.REACT_APP_BASE_URL);
-
-  // console.log("token inside navbar",token);
+  console.log("Base Url",process.env.REACT_APP_BASE_URL);
 
   // const subLink = [
   //     {
@@ -34,17 +32,26 @@ function NavBar() {
   //     {
   //         title: "web-dev",
   //         link: "/catalog/web-dev",
+  //     },
+  //     {
+  //         title: "web-dev",
+  //         link: "/catalog/web-dev",
+  //     },
+  //     {
+  //         title: "web-dev",
+  //         link: "/catalog/web-dev",
   //     }
   // ]
 
-  // console.log("token .....",token);
   let result;
   const [subLink, setSubLink] = useState([]);
   const getCatalog = async () => {
     try {
       result = await apiConnector("GET", categories.CATEGORIES_API);
-      console.log("prnting sublink data-->", result);
-      setSubLink(result.data.allCategories);
+      console.log("prnting api result inside navbar data-->", result);
+      setSubLink(result.data.data);
+      console.log("prnting sublink data-->", subLink);
+
     } catch (error) {
       console.error(error);
       console.log("Category not found");
@@ -76,33 +83,36 @@ function NavBar() {
                     <div className="relative group flex flex-row gap-x-1 items-center justify-center cursor-pointer">
                       <p>{link.title}</p>
                       <FaAngleDown />
-
-                      <div
-                        className="absolute left-[73%] top-[-40%] bg-richblack-25 text-richblack-900 invisible 
-                                                        translate-x-[-30%] translate-y-[45%] rounded-md flex flex-col gap-3 p-3
-                                                        lg:w-[280px] opacity-80 z-20 transition-all duration-200 group-hover:visible group-hover:opacity-100
-                                                    "
-                      >
+                      <>
+                      { !subLink ? (<div className=" hidden">
+                         No catalog data
+                      </div>) : (
+                         subLink.length > 0 && (
                         <div
-                          className="absolute right-[65%] top-[-15%] bg-richblack-25 text-richblack-900 invisible 
-                                                        translate-x-[40%] translate-y-[45%] rounded-sm rotate-45 
-                                                        w-8 h-8 opacity-80 z-10 transition-all duration-100 group-hover:visible group-hover:opacity-100
-                                                    "
-                        ></div>
-                        {
-                          !subLink ? (
-                            <div></div>
-                          ) : !subLink.length ? (
-                            <div></div>
-                          ) : (
-                            subLink.map((link, index) => (
-                              <Link to={`${link.link}`} key={index}>
-                                <p className=" text-richblack-900">{link.name}</p>
-                              </Link>
-                            ))
-                          ) 
-                        }
-                      </div>
+                          className="absolute top-full left-1/2 -translate-x-1/2 mt-2 
+                        bg-richblack-25 text-richblack-900 rounded-md 
+                        flex flex-col gap-3 p-3 min-w-[200px] z-20
+                        opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all">
+
+                          <div
+                            className="absolute top-[-6px] left-1/2 -translate-x-1/2 
+                          w-3 h-3 bg-richblack-25 rotate-45"
+                          ></div>
+                          {
+                           
+                              subLink.map((subItem, index) => (
+                                <Link to={`${subItem.link}`} key={index}>
+                                  <p className=" text-richblack-900">{subItem.name}</p>
+                                </Link>
+                              ))
+                      
+                          }
+                        </div>
+                       ) 
+                      )
+                        
+                      }
+                      </>
                     </div>
                   </div>
                 ) : (

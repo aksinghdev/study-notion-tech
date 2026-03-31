@@ -77,7 +77,7 @@ router.post("/getCourseDetails", getCourseDetails);
 //                                      Category routes (Only by Admin)
 // ********************************************************************************************************
 // Category can Only be Created by Admin
-// TODO: Put IsAdmin Middleware here
+
 
 router.post("/createCategory", Auth, isAdmin, createCategory);
 router.get("/showAllCategories", showAllCategories);
