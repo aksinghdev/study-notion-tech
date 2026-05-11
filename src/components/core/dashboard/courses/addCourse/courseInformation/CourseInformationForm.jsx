@@ -9,6 +9,7 @@ import RequirementsFields from "./RequirementsFields";
 import { setStep, setCourse } from "../../../../../../slices/courseSlice";
 import BtnIcon from "../../../../../common/BtnIcon"
 import toast from "react-hot-toast";
+import UploadThumbnail from "./UploadThumbnail";
 
 export default function CourseInformationForm(){
     const dispatch = useDispatch();
@@ -125,17 +126,18 @@ export default function CourseInformationForm(){
             return
             }
         }
+        console.log("new course form data --->",data)
         // when form is in normal mode (fresh course creation)
             const formData = new FormData()
             formData.append("courseName", data.courseTitle)
             formData.append("courseDescription", data.courseShortDesc)
             formData.append("price", data.coursePrice)
             formData.append("tag", JSON.stringify(data.courseTags))
-            formData.append("whatYouWillLearn", data.courseBenefits)
+            formData.append("whatYouLearn", data.courseBenifits)
             formData.append("category", data.courseCategory)
             // formData.append("status", COURSE_STATUS.DRAFT)
             formData.append("instructions", JSON.stringify(data.courseRequirements))
-            formData.append("thumbnail", data.courseImage)
+            formData.append("thumbnailImg", data.courseThumbnail)
             setLoading(true)
             const result = await addCourseDetails(formData, token)
             console.log(result);
@@ -280,6 +282,15 @@ export default function CourseInformationForm(){
                     errors = {errors}
                 />
             {/* course thumbnail */}
+
+            <UploadThumbnail
+                name="courseThumbnail"
+                label= "Course Thumbnail"
+                register={register}
+                setValue={setValue}
+                errors = {errors}
+                editData = {editCourse ? course?.thumbnail : null}
+            />
 
             {/* benifits of the course */}
             <div className=" flex flex-col space-y-2">

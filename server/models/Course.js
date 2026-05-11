@@ -13,7 +13,7 @@ const courseSchema = new mongoose.Schema({
         type:String,
         // required: true,
     },
-    thumbnail:{
+    thumbnailImg:{
         type:String,
         // required: true,
     },

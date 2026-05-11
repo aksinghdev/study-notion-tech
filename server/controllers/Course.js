@@ -18,20 +18,21 @@ const {fileUploadCloudinary} = require("../utilities/FileUpload");
 exports.createCourse = async (req, res ) =>{
     try{
         // fetch data form body and file path
-        let {courseName, courseDescription, youWillLearn, tag,category, status, price,instructions} = req.body;
+        let {courseName, courseDescription, whatYouLearn, tag, category, status, price,instructions} = req.body;
         // get file
-        // const thumbnail = req.files.thumbnailImg;
+        const thumbnail = req.files.thumbnailImg;
 
-        console.log("fetching data--> ",courseName,  courseDescription,  youWillLearn,  price,  tag,  category,  instructions);
+        console.log("fetching data--> ",courseName,  courseDescription,  whatYouLearn,  price,  tag,  category,  instructions);
+        console.log("Fetched you will learn : ",whatYouLearn);
 
         // validation of data
         if(!courseName ||
             !courseDescription ||
-            !youWillLearn ||
+            !whatYouLearn ||
             !tag || 
             !price ||
-            !category
-            // || !thumbnail
+            !category ||
+            !thumbnail
             ){
             return res.status(401).json({
                 success : false,
@@ -61,20 +62,22 @@ exports.createCourse = async (req, res ) =>{
             });
         }
         // upload thumbnail Image to cloudinary
-        // if(!thumbnail){
-        //     const uploadedThumbnail = await fileUploadCloudinary(thumbnail, process.env.FOLDER_NAME);
-        // }else{
-        //     const uploadedThumbnail = {secure_url : ""}
-        // }
+        
+            if(thumbnail){
+               const uploadedThumbnail = await fileUploadCloudinary(thumbnail, process.env.FOLDER_NAME,1000,1000);
+            }else{
+               const uploadedThumbnail = {secure_url : ""}
+            }
+            
         // create an entry to db for new course
         const newCourse = await Course.create({
             courseName,
             courseDescription,
-            whatYouLearn : youWillLearn,
+            whatYouLearn,
             price,
 			tag: tag,
 			category: categoryDetails._id,
-			// thumbnail: uploadedThumbnail.secure_url,
+			thumbnail: uploadedThumbnail.secure_url,
 			status: status,
 			instructions: instructions,
             instructor : Instructor._id,
