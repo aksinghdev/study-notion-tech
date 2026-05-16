@@ -117,7 +117,7 @@ export default function CourseInformationForm(){
                 setLoading(false)
                 if(result){
                     dispatch(setStep(2))
-                    dispatch(setCourse(result))
+                    dispatch(setCourse(result?.newCourse))
                 }
 
             }else{
@@ -126,7 +126,7 @@ export default function CourseInformationForm(){
             return
             }
         }
-        console.log("new course form data --->",data)
+
         // when form is in normal mode (fresh course creation)
             const formData = new FormData()
             formData.append("courseName", data.courseTitle)
@@ -140,10 +140,11 @@ export default function CourseInformationForm(){
             formData.append("thumbnailImg", data.courseThumbnail)
             setLoading(true)
             const result = await addCourseDetails(formData, token)
-            console.log(result);
+            console.log("Print new course create result---",result);
+            console.log("print new form data",formData);
             if (result) {
             dispatch(setStep(2))
-            dispatch(setCourse(result))
+            dispatch(setCourse(result?.newCourse))
             }
             setLoading(false)
     }

@@ -23,7 +23,7 @@ exports.createCourse = async (req, res ) =>{
         const thumbnail = req.files.thumbnailImg;
 
         console.log("fetching data--> ",courseName,  courseDescription,  whatYouLearn,  price,  tag,  category,  instructions);
-        console.log("Fetched you will learn : ",whatYouLearn);
+        // console.log("Fetched thumbnail : ",thumbnailImg);
 
         // validation of data
         if(!courseName ||
@@ -62,12 +62,15 @@ exports.createCourse = async (req, res ) =>{
             });
         }
         // upload thumbnail Image to cloudinary
-        
+        let uploadedThumbnail = "";
             if(thumbnail){
-               const uploadedThumbnail = await fileUploadCloudinary(thumbnail, process.env.FOLDER_NAME,1000,1000);
+                uploadedThumbnail = await fileUploadCloudinary(thumbnail, process.env.FOLDER_NAME,1000,1000);
             }else{
-               const uploadedThumbnail = {secure_url : ""}
+                uploadedThumbnail = {secure_url : ""}
+                
             }
+            
+            console.log("print uploaded thumbnail--->",uploadedThumbnail);
             
         // create an entry to db for new course
         const newCourse = await Course.create({
