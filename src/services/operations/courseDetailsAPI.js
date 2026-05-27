@@ -86,7 +86,7 @@ export const fetchCourseCategories = async () => {
   return result
 }
 
-// add the course details
+// Create course & add the course details
 export const addCourseDetails = async (data, token) => {
   console.log("geting data inside course details thunk:--",data);
   let result = null
@@ -102,6 +102,9 @@ export const addCourseDetails = async (data, token) => {
     }
     toast.success("Course Details Added Successfully")
     result = response?.data;
+    // 
+
+
   } catch (error) {
     console.log("CREATE COURSE API ERROR............", error)
     toast.error(error.message)
@@ -148,6 +151,8 @@ export const createSection = async (data, token) => {
     }
     toast.success("Course Section Created")
     result = response?.data?.updatedCourse
+    console.log("Print created section result :---",result);
+
   } catch (error) {
     console.log("CREATE SECTION API ERROR............", error)
     toast.error(error.message)

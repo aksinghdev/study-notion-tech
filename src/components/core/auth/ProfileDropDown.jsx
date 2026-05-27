@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import { PiCaretDownLight } from "react-icons/pi";
 
-import LogoutDropdown from "./LogoutDropdown";
+import LogoutDropdownModal from "../../common/LogoutDropdownModal";
 import UseOnClickOutside from "../../../hooks/UseOnclickOutside";
 import { logOut } from "../../../services/operations/authAPI";
 
@@ -60,7 +60,7 @@ function ProfileDropDown() {
       {dropDownOpen && (
         <div
          onClick={(e) => e.stopPropagation()}>
-          <LogoutDropdown logoutData={logoutData} />
+          <LogoutDropdownModal logoutModalData={logoutData} />
         </div>
       )}
     </div>

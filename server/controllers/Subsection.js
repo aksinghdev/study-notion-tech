@@ -14,10 +14,10 @@ exports.createSubsection = async (req, res) =>{
 
     try{
         // fetch data and video file
-        const {title, timeDuration, description, sectionID} = req.body;
+        const {title, timeDuration, description, sectionId} = req.body;
         const videoFile = req.files.videoFile;
         // validate data
-        if(!title || !timeDuration || !description || !videoFile ||!sectionID){
+        if(!title || !timeDuration || !description || !videoFile ||!sectionId){
             return res.status(400).json({
                 success : false,
                 message : 'Please Enter All Requirement Details '
@@ -36,12 +36,12 @@ exports.createSubsection = async (req, res) =>{
         });
         // update Section with tis new subsection
         const updatedSection = await Section.findByIdAndUpdate(
-            sectionID,
+            sectionId,
             {
                 $push:{subsection : newSubSection._id},
             },
             {new: true}
-        );
+        ).populate("subsection");
         // return responce
         return res.status(200).json({
             success : true,
@@ -99,11 +99,26 @@ exports.updateSubsection = async (req, res) =>{
 // Deleate subsection Handler
 exports.deleteSubsection = async (req, res) =>{
     try{
-        const id = req.body;
+        const {subSectionId, sectionId} = req.body;
+        // check exitance
+        const exitsSubsection = await Subsection.findById(subSectionId);
+        if(!exitsSubsection){
+           return res.status(404).json({
+            success : false,
+            message : 'Sub-Section not Found'
+         }); 
+        }
 
-        const deleteSubsection = await Subsection.findByIdAndDelete({id});
+        // removve from section
+        const updatedSection = await Section.findByIdAndUpdate(sectionId,{
+            $pull:{subsection:subSectionId}
+        },
+        {new: true}
+    ).populate("subsection");
 
-        // return response
+        const deleteSubsection = await Subsection.findByIdAndDelete(subSectionId);
+        // print result
+        console.log("Print updated section after delete sub section---",updatedSection);
         return res.status(200).json({
             success : true,
             updatedSection,

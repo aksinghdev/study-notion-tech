@@ -1,6 +1,7 @@
 
 const Section = require("../models/Section");
 const Course = require('../models/Course');
+const Subsection = require("../models/Subsection");
 
 
 exports.creatSection = async (req , res ) =>{
@@ -17,6 +18,7 @@ exports.creatSection = async (req , res ) =>{
         }
         // create section
         const newSection = await Section.create({sectionName});
+        console.log("print new section creted :---",newSection._id);
         // update course with this new section
         const updateCourse = await Course.findByIdAndUpdate(
             courseID,
@@ -24,13 +26,23 @@ exports.creatSection = async (req , res ) =>{
                 $push:{courseContent: newSection._id},
             },
             {new: true}
-        );
-        // HW :-- use populate functiion to replace the new section id
-        console.log(updateCourse);
+        ).populate("courseContent");
+
+            // HW :-- use populate functiion to replace the new section id
+        console.log("print course after create new section:--",updateCourse);
+
+            if(!updateCourse) {
+            return res.status(404).json({
+                success: false,
+                message: 'Course not found with this ID'
+            });}
+
+
         // return response
         return res.status(200).json({
             success : true,
-            message : 'Section created successfully done'
+            message : 'Section created successfully done',
+            updatedCourse : updateCourse
         });
     }
     catch(error){
@@ -80,25 +92,54 @@ exports.updateSection = async (req, res) =>{
 exports.deleteSection = async (req, res) =>{
     try{
         // get id :- by request body
-        const sectionID = req.body.sectionID;
+        const {sectionId , courseId} = req.body.sectionId;
         // get id by using prams
-        // const sectionID = req.params.sectionID;
-        console.log("geting section ID --->",sectionID);
+        // const sectionId = req.params.sectionId;
+        console.log("geting section ID --->",sectionId," and course ID :--- ",courseId);
         // validate id
-        if(!sectionID || sectionID.length !== 24){
+        if(!sectionId || sectionId.length !== 24){
             return res.status(401).json({
                 success : false,
-                message : 'Section not Found or Inccorect'
+                message : 'Section ID not Recieve from user or Inccorect'
             });
         }
+        const existSection = await Section.findById(sectionId);
+        if(!existSection){
+            return res.status(401).json({
+                success : false,
+                message : 'Section not Found in DB'
+            });
+        }
+    // delete section and there references
+        // delete course content 
+        await Course.findByIdAndUpdate(courseId,{
+            $pull:{
+                courseContent : sectionId,
+            }
+        })
+        // Delete subsection
+        await Subsection.deleteMany({_id: {$in: section.subsection}}) ;
         // delete section
-        // kya is section ko course se bhi delete krna padega???
-        const deletedSection = await Section.findByIdAndDelete(sectionID);
+        const deletedSection = await Section.findByIdAndDelete(sectionId);
+
+
+
+        //find the updated course and return 
+		const course = await Course.findById(courseId).populate({
+			path:"courseContent",
+			populate: {
+				path: "subSection"
+			}
+		})
+		.exec();
+
+
+
         // return responce
         return res.status(200).json({
             success : true,
             message : 'Your section Deleted successfully ',
-            deletedSection
+            data : course
         });
     }
     catch(error){

@@ -1,4 +1,4 @@
-import BtnIcon from "../../common/BtnIcon";
+import BtnIcon from "./BtnIcon";
 
 
 const ConfirmationModal = ({modaldata}) =>{

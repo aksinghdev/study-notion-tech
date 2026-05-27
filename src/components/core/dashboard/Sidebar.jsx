@@ -3,7 +3,7 @@ import react, { useState } from "react";
 import {sidebarLinks} from '../../../data/dashboard-links';
 import { useSelector } from "react-redux";
 import SidebarLinks from './SidebarLinks';
-import ConfirmationModal from "./ConfirmationModal";
+import ConfirmationModal from "../../common/ConfirmationModal";
 import LogOut from "./LogOut";
 
 

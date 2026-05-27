@@ -8,6 +8,8 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { createSection, updateSection } from "../../../../../../services/operations/courseDetailsAPI";
 import toast from "react-hot-toast";
 import NestedView from "./NestedView";
+import { MdOutlineNavigateNext } from "react-icons/md";
+// import NestedView from "./NestedView";
 
 
 export default function CourseBuilderForm (){
@@ -23,7 +25,7 @@ export default function CourseBuilderForm (){
         console.log("UPDATED the section UI with course:---",course)
     },[course])
 
-    
+    console.log("Print course from redux--",course);
 
     const cancelEdit = () =>{
         setEditSection(null);
@@ -86,7 +88,7 @@ export default function CourseBuilderForm (){
             return;
         }
 
-        editSection(sectionId)
+        setEditSection(sectionId)
         setValue("sectionName", sectionName)
     }
 
@@ -102,6 +104,7 @@ export default function CourseBuilderForm (){
                     <input
                     id="sectionName"
                     name="sectionName"
+                    className=" text-richblack-800"
                     placeholder="Enter Section Name"
                     {...register("sectionName",{required:true})}
                     />
@@ -125,6 +128,8 @@ export default function CourseBuilderForm (){
                     </button>)}
                 </div>
             </form>
+
+
             {/* nested view section */}
             {course?.courseContent?.length > 0 && (
                 <NestedView handleEditSectionChange={handleEditSectionChange}/>
@@ -137,7 +142,7 @@ export default function CourseBuilderForm (){
                     Back
                 </button>
                 <button text="Next" onclick={goToNext}>
-                    {/* <BiRightArrow /> */}
+                    <MdOutlineNavigateNext />
                 </button>
 
             </div>

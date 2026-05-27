@@ -19,8 +19,17 @@ exports.createCourse = async (req, res ) =>{
     try{
         // fetch data form body and file path
         let {courseName, courseDescription, whatYouLearn, tag, category, status, price,instructions} = req.body;
+        // parse the tag as string
+        if(typeof tag === "string"){
+            tag = JSON.parse(tag)
+        }
+
+        if(typeof instructions === "string"){
+            instructions = JSON.parse(instructions)
+        }
         // get file
         const thumbnail = req.files.thumbnailImg;
+
 
         console.log("fetching data--> ",courseName,  courseDescription,  whatYouLearn,  price,  tag,  category,  instructions);
         // console.log("Fetched thumbnail : ",thumbnailImg);
