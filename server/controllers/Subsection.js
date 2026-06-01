@@ -15,9 +15,12 @@ exports.createSubsection = async (req, res) =>{
     try{
         // fetch data and video file
         const {title, timeDuration, description, sectionId} = req.body;
+
+        console.log("print fetched data in create subsection : ---",title," - ",timeDuration," - ",description," - ",sectionId," - ")
+
         const videoFile = req.files.videoFile;
         // validate data
-        if(!title || !timeDuration || !description || !videoFile ||!sectionId){
+        if(!title || !description ||!sectionId){
             return res.status(400).json({
                 success : false,
                 message : 'Please Enter All Requirement Details '
@@ -45,7 +48,7 @@ exports.createSubsection = async (req, res) =>{
         // return responce
         return res.status(200).json({
             success : true,
-            updatedSection,
+            data: updatedSection,
             message : 'Your sub_Section created Successefully'
         });
     }

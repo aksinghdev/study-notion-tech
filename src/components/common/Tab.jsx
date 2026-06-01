@@ -13,7 +13,7 @@ export default function Tab({tabdata, accountType, setAccountType}){
             {
                 tabdata.map( (tab)=>(
                     <button
-                        key={tabdata.id}
+                        key={tabdata._id}
                         onClick={()=> setAccountType(tab.type)}
                         className={`${
                             accountType ===tab.type ?

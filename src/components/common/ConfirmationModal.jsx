@@ -2,6 +2,7 @@ import BtnIcon from "./BtnIcon";
 
 
 const ConfirmationModal = ({modaldata}) =>{
+    console.log("print modal data inside confirmation modal :---  ",modaldata);
 
     return(
         <div className="fixed inset-0 z-[1000] !mt-0 grid place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm">

@@ -9,7 +9,7 @@ import RequirementsFields from "./RequirementsFields";
 import { setStep, setCourse } from "../../../../../../slices/courseSlice";
 import BtnIcon from "../../../../../common/BtnIcon"
 import toast from "react-hot-toast";
-import UploadThumbnail from "./UploadThumbnail";
+import Upload from "../Upload";
 
 export default function CourseInformationForm(){
     const dispatch = useDispatch();
@@ -284,7 +284,7 @@ export default function CourseInformationForm(){
                 />
             {/* course thumbnail */}
 
-            <UploadThumbnail
+            <Upload
                 name="courseThumbnail"
                 label= "Course Thumbnail"
                 register={register}
