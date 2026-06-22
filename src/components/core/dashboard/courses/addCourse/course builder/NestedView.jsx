@@ -61,7 +61,7 @@ export default function NestedView ({handleEditSectionChange}){
 
     console.log("Print course inside nested vieew", course);
     console.log("Print course content inside nested vieew", course?.courseContent);
-    console.log("Print course content inside nested vieew", course?.courseContent?.section);
+    console.log("Print course content section inside nested vieew", course?.courseContent);
 
     return(
         <>
@@ -127,8 +127,8 @@ export default function NestedView ({handleEditSectionChange}){
                                             onClick={()=> setOnConfirmationModal({
                                                 text1: "Are You Sure to Delete This Subsection",
                                                 text2: "The selected lecture will be deleted",
-                                                btn1Text: 'Delete',
-                                                btn2Text: 'Cancel',
+                                                btn1text: 'Delete',
+                                                btn2text: 'Cancel',
                                                 btn1Handler : ()=> handleDeleteSubsection(data._id, section._id ),
                                                 btn2Handler : ()=> setOnConfirmationModal(null)
                                             })}

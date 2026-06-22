@@ -1,3 +1,4 @@
+const { data } = require("react-router-dom");
 const Category = require("../models/Category");
 const Course = require("../models/Course");
 const User = require("../models/User");
@@ -134,81 +135,158 @@ exports.createCourse = async (req, res ) =>{
 };
 
 // Edit course handler
-exports.updateCourse = async (req, res)=>{
-    try{
-        // fetch data form body and file path
-        const {courseName, courseDescription, youWillLearn, tag, category, price, instructions, courseID, status} = req.body;
-        // get file
-        const thumbnail = req.files?.thumbnailImg;  // Optional new thumbnail image
+// exports.updateCourse = async (req, res)=>{
+//     try{
+//         // fetch data form body and file path
+//         const {courseName, courseDescription, youWillLearn, tag, category, price, instructions, courseID, status} = req.body;
+//         console("print course ID & updates inside edit course controller : ",courseId, updates);
+//         // get file
+//         const thumbnail = req.files?.thumbnailImg;  // Optional new thumbnail image
 
-        // data validation 
-        if(!courseID){
-            return res.status(400).json({
-                success: false,
-                message: "Course Id inccorect or Not Found"
-            });
-        }
-        const existCourse = await Course.findById(courseID);
-        if(!existCourse){
-            return res.status(400).json({
-                success: false,
-                message: "Course Not Found"
-            });
-        }
-        // if update category
-        let newCategory = existCourse.category;
-        if(category){
-            const newCategoryDetails = await Category.findById(category);
-            if(!newCategoryDetails){
-                return res.status(400).json({
-                    success:false,
-                    message:"this category not found"
-                });
-            }
-            newCategory = newCategoryDetails._id;
-        }
-        // if update thumbnail image
-        let uploadedThumbnail = existCourse.thumbnail
-        if(thumbnail){
-            const newThumbnail = await fileUploadCloudinary(thumbnail, process.env.FOLDER_NAME);
-            uploadedThumbnail = newThumbnail.secure_url;
-        }
+//         // data validation 
+//         if(!courseID){
+//             return res.status(400).json({
+//                 success: false,
+//                 message: "Course Id inccorect or Not Found"
+//             });
+//         }
+//         const existCourse = await Course.findById(courseID);
+//         if(!existCourse){
+//             return res.status(400).json({
+//                 success: false,
+//                 message: "Course Not Found"
+//             });
+//         }
+//         // if update category
+//         let newCategory = existCourse.category;
+//         if(category){
+//             const newCategoryDetails = await Category.findById(category);
+//             if(!newCategoryDetails){
+//                 return res.status(400).json({
+//                     success:false,
+//                     message:"this category not found"
+//                 });
+//             }
+//             newCategory = newCategoryDetails._id;
+//         }
+//         // if update thumbnail image
+//         let uploadedThumbnail = existCourse.thumbnail
+//         if(thumbnail){
+//             const newThumbnail = await fileUploadCloudinary(thumbnail, process.env.FOLDER_NAME);
+//             uploadedThumbnail = newThumbnail.secure_url;
+//         }
 
-        // update course data
-        const updateCurseData = await Course.findByIdAndUpdate(
-            courseID,
-            {
-                courseName: courseName || existCourse.courseName,
-                courseDescription: courseDescription || existCourse.courseDescription,
-                whatYouLearn : youWillLearn || existCourse.youWillLearn,
-                thumbnail : uploadedThumbnail.sequre_url,
-                price: price || existCourse.price,
-                tag: tag || existCourse.tag,
-                category: newCategory,
-                thumbnail: uploadedThumbnail,
-                instructions: instructions || existCourse.instructions, 
-                status: status || existCourse.status,
-            },
-            {new: true}
-        );
+//         // update course data
+//         const updateCurseData = await Course.findByIdAndUpdate(
+//             courseID,
+//             {
+//                 courseName: courseName || existCourse.courseName,
+//                 courseDescription: courseDescription || existCourse.courseDescription,
+//                 whatYouLearn : youWillLearn || existCourse.youWillLearn,
+//                 thumbnail : uploadedThumbnail.sequre_url,
+//                 price: price || existCourse.price,
+//                 tag: tag || existCourse.tag,
+//                 category: newCategory,
+//                 thumbnail: uploadedThumbnail,
+//                 instructions: instructions || existCourse.instructions, 
+//                 status: status || existCourse.status,
+//             },
+//             {new: true}
+//         );
 
 
 
         
-        // return responce for successfully course creation
-        return res.status(200).json({
-            success : true,
-            message:'Your course Updated successfully',
-            updateCurseData,
-        });
+//         // return responce for successfully course creation
+//         return res.status(200).json({
+//             success : true,
+//             message:'Your course Updated successfully',
+//             updateCurseData,
+//         });
 
-    }
-    catch(error){
-        console.log('error occure during create course function:---',error);
-        return res.status(400).json({
-            success : false,
-            message : 'Course not UPdated, Failed!'
-        });
+//     }
+//     catch(error){
+//         console.log('error occure during create course function:---',error);
+//         return res.status(400).json({
+//             success : false,
+//             message : 'Course not UPdated, Failed!'
+//         });
+//     }
+// }
+
+// new version edit course 
+exports.editCourse = async (req, res) =>{
+    try{
+        // fetch data
+        const {courseId } = req.body;
+        const updates = req.body    // all updated key store in same variable
+
+        console.log("Print fetched data in edit course : --", courseId ," and udates ", updates);
+        // check exist course
+        const course = await Course.findById(courseId)
+        console.log("print course :  ",course);
+        if(!course){
+            return res.status(404).json({
+                success : false,
+                message : "Course not found "
+            })
+        }
+
+        // if thumbnail found then update it
+        if(req.files){
+            console.log("Thumbnail mil gya")
+            const thumbnail = req.files.thumbnailImg;
+            const thumbnailImage = await fileUploadCloudinary(
+                thumbnail,
+                process.env.FOLDER_NAME,
+                1000,
+                1000
+            )
+            course.thumbnailImg = thumbnailImage.secure_url;
+        }
+        // update only requested field , remaining fields have not change
+        for(const key in updates){
+            if(updates.hasOwnProperty(key)){
+                if(key === "tag" || key === "instructions"){
+                    // string to array conversion
+                    course[key] = JSON.parse(updates[key])   
+                }else{
+                    course[key] = updates[key]
+                }
+            }
+        }
+        //  save course
+        await course.save();
+        // updated course for response
+        const updatedCourse = await Course.findOne({_id : courseId})
+            .populate({
+                path: "instructor",
+                populate :{
+                    path : "additionalDetails",
+                },
+            })
+            .populate("ratingsAndReviews")
+            .populate({
+                path : "courseContent",
+                populate : {
+                    path : "subsection",
+                },
+            })
+            .exec();
+        // return success responce   
+        res.json({
+            success : true,
+            message : "Your course updated successfuly done",
+            data : updatedCourse
+        })
+
+    }catch(error){
+      console.error(error)
+      res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    })
     }
 }
 

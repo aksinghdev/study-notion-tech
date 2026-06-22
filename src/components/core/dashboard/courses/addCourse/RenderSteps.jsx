@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import {FaCheck} from "react-icons/fa"
 import CourseInformationForm from "./courseInformation/CourseInformationForm"
 import CourseBuilderForm from "./course builder/CourseBuilderForm";
+import PublishCourse from "./Publish Course/PublishCourse";
 // import { useState } from "react";
 // import { setStep } from "../../../../../slices/courseSlice";
 
@@ -77,6 +78,7 @@ export default function RenderSteps(){
             {/* Render the specific component based on the current steps */}
             {step === 1 && <CourseInformationForm/>}
             {step === 2 && <CourseBuilderForm/>}
+            {step === 3 && <PublishCourse/>}
         </>
     );
 }

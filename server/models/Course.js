@@ -64,13 +64,17 @@ const courseSchema = new mongoose.Schema({
 		type: String,
 		enum: ["Draft", "Published"],
 	},
-    createdAt : {
-        type : Date,
-        default: Date.now(),
-        expires : 600,
-        required : true,
-    },
-});
+    // createdAt : {
+    //     type : Date,
+    //     default: Date.now(),
+    //     // expires : 600,
+    //     required : true,
+    // },
+},
+{
+    timestamps : true
+}
+);
 
 const Course = mongoose.model("Course", courseSchema);
 module.exports = Course;

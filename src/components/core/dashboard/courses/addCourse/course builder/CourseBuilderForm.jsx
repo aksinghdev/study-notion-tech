@@ -71,11 +71,12 @@ export default function CourseBuilderForm (){
     }
 
     const goToNext = ()=>{
+        console.log("print course content length : ", course?.courseContent?.length);
         if(course?.courseContent?.length === 0){
             toast.error("Please add atleast one section")
             return;
         }
-        if(course?.courseContent?.some((section) => section.subSection.length === 0)){
+        if(course?.courseContent?.some((section) => section.subsection.length === 0)){
             toast.error("Please add at lest one lecture in each sub section")
             return;
         }
