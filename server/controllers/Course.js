@@ -377,10 +377,11 @@ exports.getInstructorCourses = async (req, res) => {
         }
 
         // find all courses
-        const instructorCourses = Course.find(
+        const instructorCourses = await Course.find(
             {instructor : instructorId}
         ).populate("category")
         .populate("ratingsAndReviews")
+        .lean()  // to convert plain js object
         .sort({createdAt : -1})
 
         console.log("Print instructor courses ---> ",instructorCourses);

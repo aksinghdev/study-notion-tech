@@ -73,7 +73,7 @@ router.post("/deleteSubSection", Auth, isInstructor, deleteSubsection);
 router.post("/addSubSection", Auth, isInstructor, createSubsection);
 // get instructor courses
 // router.get("/getInstructorCourses",Auth, isInstructor, getInstructorCourses);
-router.get("/dashboard/my-courses",Auth, isInstructor, getInstructorCourses);
+router.get("/my-courses",Auth, isInstructor, getInstructorCourses);
 // Get all Registered Courses
 router.get("/getAllCourses", showAllCourses);
 // Get Details for a Specific Courses

@@ -3,7 +3,9 @@ import Course from "./courses/Course";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchInstructorCourses } from "../../../services/operations/courseDetailsAPI";
-
+import BtnIcon from "../../common/BtnIcon";
+import { VscAdd } from "react-icons/vsc"
+import CoursesTable from "./courses/instructor courses/CoursesTable";
 
 export default function MyCourses(){
     const token = useSelector((state) => state.auth);
@@ -18,12 +20,23 @@ export default function MyCourses(){
                 setCourses(result);
             }
         }
+        fetchCourses();
     },[])
-    console.log("print result inside my courses : ");
+    // console.log("print result inside my courses : ");
     
     return(
-        <div className="mt-20 text-center text-white mx-auto w-full">           
-            my courses
-        </div>
+        <div>
+            <div className="mb-14 flex items-center justify-between">
+                <h1 className="text-3xl font-medium text-richblack-5">My Courses</h1>
+                <BtnIcon
+                text="Add Course"
+                onclick={() => navigate("/dashboard/add-course")}
+                >
+                <VscAdd />
+                </BtnIcon>
+                
+            </div>
+            {courses && <CoursesTable courses={courses} setCourses={setCourses} />}
+    </div>
     );
 }
