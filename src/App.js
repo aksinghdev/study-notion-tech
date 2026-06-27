@@ -1,6 +1,6 @@
 import "./App.css";
 
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import Home from "./pages/Home";
 import NavBar from "./components/common/NavBar";
 import Login from "./pages/Login";
@@ -14,6 +14,8 @@ import About from "./pages/About";
 import ContactUs from './pages/ContactUs'
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/core/auth/PrivateRoute";
+import InstructorRoute from "./components/core/auth/InstructorRoute";
+import StudentRoute from "./components/core/auth/StudentRoute";
 import MyProfile from "./components/core/dashboard/MyProfile";
 import MyCourses from "./components/core/dashboard/MyCourses";
 import MyDashboard from "./components/core/dashboard/MyDashboard";
@@ -22,13 +24,7 @@ import AddCourseIndex from "./components/core/dashboard/courses/addCourse/AddCou
 import EnrolledCourses from "./components/core/dashboard/EnrolledCourses";
 import PurchaseHistory from "./components/core/dashboard/PurshesHistory";
 import CartIndex from "./components/core/dashboard/Cart/CartIndex";
-import { useSelector } from "react-redux";
-import { ACCOUNT_TYPE } from "./utils/constants";
-
-
 function App() {
-
-  const {user} = useSelector((state => state.auth));
 
   return (
     <div className=" w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
@@ -39,7 +35,10 @@ function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/about" element={<About/>} />
         <Route path="/contact" element={<ContactUs/>} />
-        {/* <Route path="/dashboard/my-profile" element={<MyProfile/>} /> */}
+        {/* <Route path="courses/:courseId" element={<CourseDetails />} />
+        <Route path="catalog/:catalogName" element={<Catalog />} /> */}
+
+        {/* Open Route - only for non logged in user */}
         <Route
           path="/login"
           element={
@@ -66,9 +65,9 @@ function App() {
         />
          <Route
           path="/update-password/:token"
+          // path="/update-password/:id"
           element={
             <OpenRoute>
-              {/* <ForgotPassword/> */}
               <UpdatePassword/>
             </OpenRoute>
           }
@@ -92,41 +91,71 @@ function App() {
           }
         />
 
+        
+        {/* Private Route - only for Logged IN users */}
+
         {/* All dashboard routes */}
-        <Route path="/dashboard" element={<Dashboard/>} >
-          {/* <Route index element={
+        <Route 
+          path="/dashboard"
+          element={
             <PrivateRoute>
-              <MyProfile />
+              <Dashboard/>
             </PrivateRoute>
-            } /> */}
-          <Route path="my-profile" element={<MyProfile />} />
-          <Route path="my-courses" element={<MyCourses />} />
-          <Route path="instructor" element={<MyDashboard />} />
-          <Route path="settings" element={<SettingIndex/>} />
-          <Route path="add-course" element={<AddCourseIndex/>} />
-
-          <Route path="cart" element={<CartIndex/>} />
-          <Route path="enrolled-courses" element={<EnrolledCourses/>} />
-          <Route path="purchase-history" element={<PurchaseHistory/>} />
-          
-          {
-            user?.accountType === ACCOUNT_TYPE.STUDENT && (
-              <>
-                <Route path="cart" element={<CartIndex/>} />
-                <Route path="enrolled-courses" element={<EnrolledCourses/>} />
-                <Route path="purchase-history" element={<PurchaseHistory/>} />
-              </>
-            )
-          } 
-          {
-            user?.ACCOUNT_TYPE === ACCOUNT_TYPE.INSTRUCTOR && (
-              <>
-              
-              </>
-            )
           }
+         >
+          <Route index element={<Navigate to="my-profile" replace />} />
+          <Route path="my-profile" element={<MyProfile />} />
+          <Route path="settings" element={<SettingIndex/>} />
 
+          <Route
+            path="instructor"
+            element={
+              <InstructorRoute>
+                <MyDashboard/>
+              </InstructorRoute>
+            }
+          />
+          <Route
+            path="my-courses"
+            element={
+              <InstructorRoute>
+                <MyCourses/>
+              </InstructorRoute>
+            }
+          />
+          <Route
+            path="add-course"
+            element={
+              <InstructorRoute>
+                <AddCourseIndex/>
+              </InstructorRoute>
+            }
+          />
 
+          <Route
+            path="cart"
+            element={
+              <StudentRoute>
+                <CartIndex/>
+              </StudentRoute>
+            }
+          />
+          <Route
+            path="enrolled-courses"
+            element={
+              <StudentRoute>
+                <EnrolledCourses/>
+              </StudentRoute>
+            }
+          />
+          <Route
+            path="purchase-history"
+            element={
+              <StudentRoute>
+                <PurchaseHistory/>
+              </StudentRoute>
+            }
+          />
         </Route>
          
       </Routes>

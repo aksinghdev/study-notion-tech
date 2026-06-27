@@ -11,6 +11,7 @@ const {
   showAllCourses,
   updateCourse,
   editCourse,
+  getInstructorCourses
 } = require("../controllers/Course");
 
 // Categories Controllers Import
@@ -70,6 +71,9 @@ router.post("/updateSubSection", Auth, isInstructor, updateSubsection);
 router.post("/deleteSubSection", Auth, isInstructor, deleteSubsection);
 // Add a Sub Section to a Section
 router.post("/addSubSection", Auth, isInstructor, createSubsection);
+// get instructor courses
+// router.get("/getInstructorCourses",Auth, isInstructor, getInstructorCourses);
+router.get("/dashboard/my-courses",Auth, isInstructor, getInstructorCourses);
 // Get all Registered Courses
 router.get("/getAllCourses", showAllCourses);
 // Get Details for a Specific Courses
