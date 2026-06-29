@@ -39,7 +39,7 @@ export default function CoursesTable({ courses, setCourses }) {
     setLoading(false)
   }
 
-  console.log("All Course ", courses)
+  // console.log("All Course ", courses)
 
   return (
     <>
@@ -76,7 +76,7 @@ export default function CoursesTable({ courses, setCourses }) {
               >
                 <Td className="flex flex-1 gap-x-4">
                   <img
-                    src={course?.thumbnail}
+                    src={course?.thumbnailImg}
                     alt={course?.courseName}
                     className="h-[148px] w-[220px] rounded-lg object-cover"
                   />

@@ -11,7 +11,8 @@ const {
   showAllCourses,
   updateCourse,
   editCourse,
-  getInstructorCourses
+  getInstructorCourses,
+  deleteCourse
 } = require("../controllers/Course");
 
 // Categories Controllers Import
@@ -59,6 +60,9 @@ router.post("/createCourse", Auth, isInstructor, createCourse);
 // update a existing course
 // router.post("/editCourse", Auth, isInstructor, updateCourse);
 router.post("/editCourse", Auth, isInstructor, editCourse);
+// delete a course
+// router.post("/deleteCourse", Auth, isInstructor, deleteCourse )
+router.delete("/deleteCourse", Auth, isInstructor, deleteCourse )
 //Add a Section to a Course
 router.post("/addSection", Auth, isInstructor, creatSection);
 // Update a Section

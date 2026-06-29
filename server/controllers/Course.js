@@ -29,11 +29,11 @@ exports.createCourse = async (req, res ) =>{
             instructions = JSON.parse(instructions)
         }
         // get file
-        const thumbnail = req.files.thumbnailImg;
+        const thumbnail = req.files.thumbnailImage;
 
 
         console.log("fetching data--> ",courseName,  courseDescription,  whatYouLearn,  price,  tag,  category,  instructions);
-        // console.log("Fetched thumbnail : ",thumbnailImg);
+        console.log("Fetched thumbnail : ",thumbnail);
 
         // validation of data
         if(!courseName ||
@@ -90,7 +90,7 @@ exports.createCourse = async (req, res ) =>{
             price,
 			tag: tag,
 			category: categoryDetails._id,
-			thumbnail: uploadedThumbnail.secure_url,
+			thumbnailImg: uploadedThumbnail.secure_url,
 			status: status,
 			instructions: instructions,
             instructor : Instructor._id,

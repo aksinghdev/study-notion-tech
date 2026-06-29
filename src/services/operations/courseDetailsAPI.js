@@ -283,7 +283,7 @@ export const fetchInstructorCourses = async (token) => {
         Authorization: `Bearer ${token}`,
       }
     )
-    console.log("INSTRUCTOR COURSES API RESPONSE............", response)
+    // console.log("INSTRUCTOR COURSES API RESPONSE............", response)
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch Instructor Courses")
     }
@@ -299,6 +299,7 @@ export const fetchInstructorCourses = async (token) => {
 // delete a course
 export const deleteCourse = async (data, token) => {
   const toastId = toast.loading("Loading...")
+  console.log("Print Course Id and token : ",data,"  token : ",token);
   try {
     const response = await apiConnector("DELETE", DELETE_COURSE_API, data, {
       Authorization: `Bearer ${token}`,

@@ -108,9 +108,9 @@ export default function CourseInformationForm(){
                     "instructions",
                     JSON.stringify(data.courseRequirements)
                 )
-                // if(currentValues.courseImage !== course.thumbnail){
-                //     formData.append("thumbnail",data.courseImage)
-                // }
+                if(currentValues.courseImage !== course.thumbnailImg){
+                    formData.append("thumbnailImage",data.courseImage)
+                }
 
                 setLoading(true)
                 const result = await editCourseDetails(formData, token)
@@ -137,7 +137,7 @@ export default function CourseInformationForm(){
             formData.append("category", data.courseCategory)
             // formData.append("status", COURSE_STATUS.DRAFT)
             formData.append("instructions", JSON.stringify(data.courseRequirements))
-            formData.append("thumbnailImg", data.courseThumbnail)
+            formData.append("thumbnailImage", data.courseThumbnail)
             setLoading(true)
             const result = await addCourseDetails(formData, token)
             console.log("Print new course create result---",result);
@@ -290,7 +290,7 @@ export default function CourseInformationForm(){
                 register={register}
                 setValue={setValue}
                 errors = {errors}
-                editData = {editCourse ? course?.thumbnail : null}
+                editData = {editCourse ? course?.thumbnailImg : null}
             />
 
             {/* benifits of the course */}
