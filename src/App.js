@@ -18,7 +18,7 @@ import InstructorRoute from "./components/core/auth/InstructorRoute";
 import StudentRoute from "./components/core/auth/StudentRoute";
 import MyProfile from "./components/core/dashboard/MyProfile";
 import MyCourses from "./components/core/dashboard/MyCourses";
-import MyDashboard from "./components/core/dashboard/MyDashboard";
+import Instructor from "./components/core/dashboard/Instructor";
 import SettingIndex from "./components/core/dashboard/SettingIndex";
 import AddCourseIndex from "./components/core/dashboard/courses/addCourse/AddCourseIndex";
 import EnrolledCourses from "./components/core/dashboard/EnrolledCourses";
@@ -107,11 +107,12 @@ function App() {
           <Route path="my-profile" element={<MyProfile />} />
           <Route path="settings" element={<SettingIndex/>} />
 
+          {/* All Routes - Only for Instructor */}
           <Route
             path="instructor"
             element={
               <InstructorRoute>
-                <MyDashboard/>
+                <Instructor/>
               </InstructorRoute>
             }
           />

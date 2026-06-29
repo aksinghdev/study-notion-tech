@@ -7,6 +7,7 @@ const {
   getAllUserDetails,
   updateDisplayPicture,
   getEnrolledCourses,
+  instructorDashboard,
 } = require("../controllers/MyProfile");
 
 // ********************************************************************************************************
@@ -14,10 +15,15 @@ const {
 // ********************************************************************************************************
 // Delet User Account
 router.delete("/deleteProfile",Auth, deleteAccount);
+// update user profile
 router.put("/updateProfile", Auth, updateProfile);
+// get user details
 router.get("/getUserDetails", Auth, getAllUserDetails);
+// get only instructor dashboard details  
+router.get("/instructorDashboard", Auth, instructorDashboard);
 // Get Enrolled Courses
 router.get("/getEnrolledCourses", Auth, getEnrolledCourses);
+// update user DP
 router.put("/updateDisplayPicture", Auth, updateDisplayPicture);
 
 module.exports = router;

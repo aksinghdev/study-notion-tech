@@ -301,9 +301,14 @@ export const deleteCourse = async (data, token) => {
   const toastId = toast.loading("Loading...")
   console.log("Print Course Id and token : ",data,"  token : ",token);
   try {
-    const response = await apiConnector("DELETE", DELETE_COURSE_API, data, {
-      Authorization: `Bearer ${token}`,
-    })
+    const response = await apiConnector(
+      "DELETE",
+      DELETE_COURSE_API,
+      data,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    )
     console.log("DELETE COURSE API RESPONSE............", response)
     if (!response?.data?.success) {
       throw new Error("Could Not Delete Course")

@@ -4,7 +4,7 @@ import { setUser, setLoading } from "../../slices/profileSlice"
 import { apiConnector } from "../apiConnector"
 import { profileEndpoints } from "../api"
 import toast from "react-hot-toast";
-const {GET_USER_DETAILS_API, GET_USER_ENROLLED_COURSES_API} = profileEndpoints;
+const {GET_USER_DETAILS_API, GET_USER_ENROLLED_COURSES_API, GET_INSTRUCTOR_DATA_API} = profileEndpoints;
 
 // User details thunk
 export function getUserDetails(token){
@@ -70,4 +70,22 @@ export function getEnrolledCourses (token){
         }
     }
     
+}
+
+// get instructor data
+export async function getInstructorData(token) {
+  const toastId = toast.loading("Loading...")
+  let result = []
+  try {
+    const response = await apiConnector("GET", GET_INSTRUCTOR_DATA_API, null, {
+      Authorization: `Bearer ${token}`,
+    })
+    console.log("GET_INSTRUCTOR_DATA_API API RESPONSE............", response)
+    result = response?.data?.courses || []
+  } catch (error) {
+    console.log("GET_INSTRUCTOR_DATA_API API ERROR............", error)
+    toast.error("Could Not Get Instructor Data")
+  }
+  toast.dismiss(toastId)
+  return result
 }

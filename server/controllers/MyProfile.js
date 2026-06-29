@@ -1,5 +1,6 @@
 
 const Profile = require("../models/Profile");
+const Course = require("../models/Course");
 const User = require("../models/User");
 const {fileUploadCloudinary} = require("../utilities/FileUpload");
 
@@ -206,3 +207,45 @@ exports.getEnrolledCourses = async (req, res) => {
     });
   }
 };
+
+// instructor dashboard controller
+exports.instructorDashboard = async (req, res) => {
+  try {
+    const courseDetails = await Course.find({ instructor: req.user.id })
+    if(!courseDetails){
+      res.status(404).json({
+        success : false,
+        message : "Instructor course not found for Dashboard"
+
+      })
+    }
+    console.log("Print CourseDetails in dashboard ",courseDetails);
+    const courseData = courseDetails.map((course) => {
+      const totalStudentsEnrolled = course?.studentEnrolled?.length
+      const totalAmountGenerated = totalStudentsEnrolled * course?.price
+
+      // Create a new object with the additional fields
+      const courseDataWithStats = {
+        _id: course._id,
+        courseName: course.courseName,
+        courseDescription: course.courseDescription,
+        // Include other course properties as needed
+        totalStudentsEnrolled,
+        totalAmountGenerated,
+      }
+
+      return courseDataWithStats
+    })
+
+    res.status(200).json({ 
+      success : true,
+      message : "Fetched course Details successfuly",
+      courses: courseData,
+
+     })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server Error" })
+  }
+}
+
