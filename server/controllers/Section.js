@@ -92,7 +92,7 @@ exports.updateSection = async (req, res) =>{
 exports.deleteSection = async (req, res) =>{
     try{
         // get id :- by request body
-        const {sectionId , courseId} = req.body.sectionId;
+        const {sectionId , courseId} = req.body;
         // get id by using prams
         // const sectionId = req.params.sectionId;
         console.log("geting section ID --->",sectionId," and course ID :--- ",courseId);
@@ -105,7 +105,7 @@ exports.deleteSection = async (req, res) =>{
         }
         const existSection = await Section.findById(sectionId);
         if(!existSection){
-            return res.status(401).json({
+            return res.status(404).json({
                 success : false,
                 message : 'Section not Found in DB'
             });
@@ -118,7 +118,7 @@ exports.deleteSection = async (req, res) =>{
             }
         })
         // Delete subsection
-        await Subsection.deleteMany({_id: {$in: section.subsection}}) ;
+        await Subsection.deleteMany({_id: {$in: existSection.subsection}}) ;
         // delete section
         const deletedSection = await Section.findByIdAndDelete(sectionId);
 
@@ -128,7 +128,7 @@ exports.deleteSection = async (req, res) =>{
 		const course = await Course.findById(courseId).populate({
 			path:"courseContent",
 			populate: {
-				path: "subSection"
+				path: "subsection"
 			}
 		})
 		.exec();

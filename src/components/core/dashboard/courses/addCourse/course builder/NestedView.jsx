@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MdModeEdit } from "react-icons/md";
 import { RxDropdownMenu } from "react-icons/rx";
@@ -62,6 +62,10 @@ export default function NestedView ({handleEditSectionChange}){
     console.log("Print course inside nested vieew", course);
     console.log("Print course content inside nested vieew", course?.courseContent);
     console.log("Print course content section inside nested vieew", course?.courseContent);
+
+    useEffect( ()=>{
+        console.log("Update UI inside Course builder ")
+    },[course])
 
     return(
         <>

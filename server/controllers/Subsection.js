@@ -132,7 +132,7 @@ exports.deleteSubsection = async (req, res) =>{
         console.log(error);
         return res.status(401).json({
             success : false,
-            deleteSubsection,
+            updatedSection,
             message : 'Sub-Section not Deleted, Proccess Failed '
         });   
     }
