@@ -8,7 +8,7 @@ import { VscAdd } from "react-icons/vsc"
 import CoursesTable from "./courses/instructor courses/CoursesTable";
 
 export default function MyCourses(){
-    const token = useSelector((state) => state.auth);
+    const {token} = useSelector((state) => state.auth);
     const navigate = useNavigate();
     const [courses, setCourses] = useState(null);
 

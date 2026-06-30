@@ -3,7 +3,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table"
 
-import { setCourse, setEditCourse } from "../../../../../slices/courseSlice"
+import { setCourse, setEditCourse, } from "../../../../../slices/courseSlice"
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css"
 import { useState } from "react"
 import { FaCheck } from "react-icons/fa"
@@ -121,7 +121,11 @@ export default function CoursesTable({ courses, setCourses }) {
                   <button
                     disabled={loading}
                     onClick={() => {
+                      // dispatch(resetCourseState())
+                      dispatch(setEditCourse(true))
+                      dispatch(setCourse(course))
                       navigate(`/dashboard/edit-course/${course._id}`)
+                      
                     }}
                     title="Edit"
                     className="px-2 transition-all duration-200 hover:scale-110 hover:text-caribbeangreen-300"

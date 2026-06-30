@@ -31,7 +31,7 @@ export default function Course(){
                         className=" flex flex-col gap-x-3 "
                         >
                             <img
-                            src={course?.thumbnail}
+                            src={course?.thumbnailImg}
                             alt={course?.courseName}
                             className=" w-[220px] h-[200px] object-cover"
                             />

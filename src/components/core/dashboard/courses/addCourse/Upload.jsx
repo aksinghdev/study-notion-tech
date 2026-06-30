@@ -49,7 +49,7 @@ export default function Upload({
 
     // for register the file in form
     useEffect( () => {
-        register(name, {required : true})
+        register(name, {required : !editData})
     }, [register])
 
     // for update UI

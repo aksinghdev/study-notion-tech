@@ -18,6 +18,7 @@ import InstructorRoute from "./components/core/auth/InstructorRoute";
 import StudentRoute from "./components/core/auth/StudentRoute";
 import MyProfile from "./components/core/dashboard/MyProfile";
 import MyCourses from "./components/core/dashboard/MyCourses";
+import EditCourse from "./components/core/dashboard/courses/edit course/EditCourse";
 import Instructor from "./components/core/dashboard/Instructor";
 import SettingIndex from "./components/core/dashboard/SettingIndex";
 import AddCourseIndex from "./components/core/dashboard/courses/addCourse/AddCourseIndex";
@@ -107,7 +108,7 @@ function App() {
           <Route path="my-profile" element={<MyProfile />} />
           <Route path="settings" element={<SettingIndex/>} />
 
-          {/* All Routes - Only for Instructor */}
+    {/* All Routes - Only for Instructor */}
           <Route
             path="instructor"
             element={
@@ -133,6 +134,16 @@ function App() {
             }
           />
 
+          <Route
+            path="edit-course/:courseId"
+            element={
+              <InstructorRoute>
+                <EditCourse/>
+              </InstructorRoute>
+            }
+          />
+
+    {/* All Routes - Only for Students */}
           <Route
             path="cart"
             element={

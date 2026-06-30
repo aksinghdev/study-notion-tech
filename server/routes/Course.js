@@ -80,8 +80,8 @@ router.post("/addSubSection", Auth, isInstructor, createSubsection);
 router.get("/my-courses",Auth, isInstructor, getInstructorCourses);
 // Get all Registered Courses
 router.get("/getAllCourses", showAllCourses);
-// Get Details for a Specific Courses
-router.post("/getCourseDetails", getCourseDetails);
+// Get Full Details for a Specific Courses
+router.post("/getFullCourseDetails", getCourseDetails);
 
 // ********************************************************************************************************
 //                                      Category routes (Only by Admin)

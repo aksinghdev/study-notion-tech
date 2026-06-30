@@ -39,118 +39,116 @@ export default function CourseInformationForm(){
 
     useEffect( () =>{
         // when course edit karna hai
-        if(editCourse){
+        if(editCourse && course){
             setValue("courseTitle", course.courseName)
             setValue("courseShortDesc", course.courseDescription)
             setValue("coursePrice", course.price)
             setValue("courseTags", course.tag)
-            setValue("courseBenefits", course.whatYouWillLearn)
-            setValue("courseCategory", course.category)
+            setValue("courseBenifits", course.whatYouLearn)
+            setValue("courseCategory", course.category._id)
             setValue("courseRequirements", course.instructions)
-            setValue("courseImage", course.thumbnail)
+            setValue("courseThumbnail", course.thumbnailImg)
         }
         getCategories();
-    },[]);
+    },[editCourse, course]);
 
-    // required field updation UI
-    useEffect(() => {},[])
     // check for form update
     const isFormUpdated = () => {
-        const currentValues = getValues()
-        // console.log("changes after editing form values:", currentValues)
-        if(
+    if (!editCourse || !course) return false
+
+    const currentValues = getValues()
+
+    return (
         currentValues.courseTitle !== course.courseName ||
         currentValues.courseShortDesc !== course.courseDescription ||
         currentValues.coursePrice !== course.price ||
-        currentValues.courseTags.toString() !== course.tag.toString() ||
-        currentValues.courseBenefits !== course.whatYouWillLearn ||
-        currentValues.courseCategory._id !== course.category._id ||
-        currentValues.courseRequirements.toString() !== course.instructions.toString()
-        //   currentValues.courseImage !== course.thumbnail
-        ){
-        return true
-        }else
-    return false
-    } 
-
+        currentValues.courseTags?.toString() !== course.tag?.toString() ||
+        currentValues.courseBenifits !== course.whatYouLearn ||
+        currentValues.courseCategory !== course.category._id ||
+        currentValues.courseRequirements?.toString() !== course.instructions?.toString() ||
+        currentValues.courseThumbnail instanceof File
+    )
+}
     // submit handler logic function
-
-    const onSubmit = async (data) =>{
-        // when form is in edit mode
-        if(editCourse){
-            if(isFormUpdated){
-                const currentValues = getValues();
-                const formData = new FormData();
-                formData.append("courseId",course._id)
-                if (currentValues.courseTitle !== course.courseName) {
-                formData.append("courseName", data.courseTitle)
-                }
-                if (currentValues.courseShortDesc !== course.courseDescription) {
-                formData.append("courseDescription", data.courseShortDesc)
-                }
-                if (currentValues.coursePrice !== course.price) {
-                formData.append("price", data.coursePrice)
-                }
-                if (currentValues.courseTags.toString() !== course.tag.toString()) {
-                formData.append("tag", JSON.stringify(data.courseTags))
-                }
-                if (currentValues.courseBenefits !== course.whatYouWillLearn) {
-                formData.append("whatYouWillLearn", data.courseBenefits)
-                }
-                if (currentValues.courseCategory._id !== course.category._id) {
-                formData.append("category", data.courseCategory)
-                }
-                if (
-                currentValues.courseRequirements.toString() !==
-                course.instructions.toString()
-                ) {
-                formData.append(
-                    "instructions",
-                    JSON.stringify(data.courseRequirements)
-                )
-                if(currentValues.courseImage !== course.thumbnailImg){
-                    formData.append("thumbnailImage",data.courseImage)
-                }
-
-                setLoading(true)
-                const result = await editCourseDetails(formData, token)
-                setLoading(false)
-                if(result){
-                    dispatch(setStep(2))
-                    dispatch(setCourse(result?.newCourse))
-                }
-
-            }else{
-                toast.error("No changes made to the form")
-            }
+    const onSubmit = async (data) => {
+    // ===================== EDIT MODE =====================
+    if (editCourse) {
+        if (!isFormUpdated()) {
+            toast.error("No changes made to the form")
             return
-            }
         }
 
-        // when form is in normal mode (fresh course creation)
-            const formData = new FormData()
+        const currentValues = getValues()
+        const formData = new FormData()
+        formData.append("courseId", course._id)
+
+        // Only append changed values
+        if (currentValues.courseTitle !== course.courseName) {
             formData.append("courseName", data.courseTitle)
+        }
+        if (currentValues.courseShortDesc !== course.courseDescription) {
             formData.append("courseDescription", data.courseShortDesc)
+        }
+        if (currentValues.coursePrice !== course.price) {
             formData.append("price", data.coursePrice)
+        }
+        if (currentValues.courseTags?.toString() !== course.tag?.toString()) {
             formData.append("tag", JSON.stringify(data.courseTags))
+        }
+        if (currentValues.courseBenifits !== course.whatYouLearn) {
             formData.append("whatYouLearn", data.courseBenifits)
+        }
+        if (currentValues.courseCategory !== course.category._id) {
             formData.append("category", data.courseCategory)
-            // formData.append("status", COURSE_STATUS.DRAFT)
-            formData.append("instructions", JSON.stringify(data.courseRequirements))
+        }
+        if (
+            currentValues.courseRequirements?.toString() !==
+            course.instructions?.toString()
+        ) {
+            formData.append(
+                "instructions",
+                JSON.stringify(data.courseRequirements)
+            )
+        }
+        // If new image uploaded then append
+        if (data.courseThumbnail instanceof File) {
             formData.append("thumbnailImage", data.courseThumbnail)
-            setLoading(true)
-            const result = await addCourseDetails(formData, token)
-            console.log("Print new course create result---",result);
-            console.log("print new form data",formData);
-            if (result) {
+        }
+
+        // API call for save changes
+        setLoading(true)
+        const result = await editCourseDetails(formData, token)
+        setLoading(false)
+
+        // Dispatch result after validation
+        if (result) {
             dispatch(setStep(2))
-            dispatch(setCourse(result?.newCourse))
-            }
-            setLoading(false)
+            dispatch(setCourse(result))
+        }
+        return
     }
 
-    
+    // ===================== CREATE MODE =====================
+    const formData = new FormData()
+    formData.append("courseName", data.courseTitle)
+    formData.append("courseDescription", data.courseShortDesc)
+    formData.append("price", data.coursePrice)
+    formData.append("tag", JSON.stringify(data.courseTags))
+    formData.append("whatYouLearn", data.courseBenifits)
+    formData.append("category", data.courseCategory)
+    formData.append("instructions", JSON.stringify(data.courseRequirements))
+    formData.append("thumbnailImage", data.courseThumbnail)
 
+    setLoading(true)
+    const result = await addCourseDetails(formData, token)
+    setLoading(false)
+
+    if (result) {
+        dispatch(setStep(2))
+        dispatch(setCourse(result.newCourse))
+    }
+}
+    
     return(
         <form
         className=" space-y-8 border-[1px] border-richblack-700 rounded-md bg-richblack-800 p-6"
@@ -349,6 +347,7 @@ export default function CourseInformationForm(){
                     </button>
                 )}
                 <BtnIcon
+                    type= "submit"
                     text={!editCourse ? "Next" : "Save Changes"}
                     disabled={loading}
                 >

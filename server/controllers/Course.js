@@ -235,14 +235,14 @@ exports.editCourse = async (req, res) =>{
         // if thumbnail found then update it
         if(req.files){
             console.log("Thumbnail mil gya")
-            const thumbnail = req.files.thumbnailImg;
-            const thumbnailImage = await fileUploadCloudinary(
+            const thumbnail = req.files.thumbnailImg || req.files.thumbnailImage;
+            const uploadedThumbnailImage = await fileUploadCloudinary(
                 thumbnail,
                 process.env.FOLDER_NAME,
                 1000,
                 1000
             )
-            course.thumbnailImg = thumbnailImage.secure_url;
+            course.thumbnailImg = uploadedThumbnailImage.secure_url;
         }
         // update only requested field , remaining fields have not change
         for(const key in updates){
@@ -320,10 +320,10 @@ exports.showAllCourses = async (req, res ) =>{
 exports.getCourseDetails = async(req, res)=>{
     try{
         // get course ID
-        const courseId = req.body; 
+        const {courseId} = req.body; 
         // get course details
         console.log("getting course ID--->",courseId);
-        const courseDetails = await Course.find(courseId)
+        const courseDetails = await Course.findById(courseId)
                                                 .populate({
                                                     path:"courseContent",
                                                     populate:{path :"subsection"},
@@ -357,7 +357,8 @@ exports.getCourseDetails = async(req, res)=>{
         console.log(error);
         return res.status(502).json({
             success: false,
-            message : error.message
+            message : error.message,
+
         });
     }
 }
