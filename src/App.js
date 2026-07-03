@@ -13,6 +13,7 @@ import ResetComplete from "./pages/ResetComplete";
 import About from "./pages/About";
 import ContactUs from './pages/ContactUs'
 import Dashboard from "./pages/Dashboard";
+import Catalog from "./pages/Catalog";
 import PrivateRoute from "./components/core/auth/PrivateRoute";
 import InstructorRoute from "./components/core/auth/InstructorRoute";
 import StudentRoute from "./components/core/auth/StudentRoute";
@@ -36,8 +37,8 @@ function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/about" element={<About/>} />
         <Route path="/contact" element={<ContactUs/>} />
-        {/* <Route path="courses/:courseId" element={<CourseDetails />} />
-        <Route path="catalog/:catalogName" element={<Catalog />} /> */}
+        {/* <Route path="courses/:courseId" element={<CourseDetails />} />  */}
+        <Route path="catalog/:catalogName" element={<Catalog />} /> 
 
         {/* Open Route - only for non logged in user */}
         <Route

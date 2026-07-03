@@ -1,5 +1,5 @@
 import { NavbarLinks } from "../../data/navbar-links";
-import { Link, matchPath } from "react-router-dom";
+import { Link, matchPath, Route } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import logo from "../../assets/Logo/Logo-Full-Light.png";
 import { lazy, use, useEffect, useState } from "react";
@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../services/operations/authAPI";
 
-function NavBar() {
+function NavBar(){
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // let token = null;
@@ -42,29 +42,30 @@ function NavBar() {
   //         link: "/catalog/web-dev",
   //     }
   // ]
-
-  let result;
-  const [subLink, setSubLink] = useState([]);
-  const getCatalog = async () => {
-    try {
-      result = await apiConnector("GET", categories.CATEGORIES_API);
-      console.log("prnting api result inside navbar data-->", result);
-      setSubLink(result.data.data);
-      console.log("prnting sublink data-->", subLink);
-
-    } catch (error) {
-      console.error(error);
-      console.log("Category not found");
-    }
-  };
-  useEffect(() => {
-    getCatalog();
-  }, []);
+  
   const location = useLocation();
-  const matchRoute = (route) => {
-    return matchPath({ path: route }, location.pathname);
-  };
+  const [subLinks, setSubLinks] = useState([]);
+  const [loading, setLoading] = useState(false)
 
+  useEffect( () =>{
+    ;( async() => {
+      setLoading(true)
+      try{
+        const result = await apiConnector("GET", categories.CATEGORIES_API);
+        console.log("Print category result : ",result)
+        setSubLinks(result?.data?.data);
+      }catch(error){
+        console.log("Couldn't fetch categories", error)
+      }
+      setLoading(false)
+    })()
+  },[])
+    
+  const matchRoute = (route) =>{
+    return matchPath({path : route}, location.pathname )
+  }
+
+  console.log("Print subLinks : ",subLinks);
   
   return (
     <div className=" bg-richblack-800  justify-center flex w-full h-12 border-b-[1px] border-richblack-700  ">
@@ -79,42 +80,53 @@ function NavBar() {
             {NavbarLinks.map((link, index) => (
               <li key={index}>
                 {link.title === "Catalog" ? (
-                  <div>
-                    <div className="relative group flex flex-row gap-x-1 items-center justify-center cursor-pointer">
+              
+                <>
+                    <div
+                      className={`group relative flex cursor-pointer items-center gap-1 ${
+                        matchRoute("/catalog/:catalogName")
+                          ? "text-yellow-25"
+                          : "text-richblack-25"
+                      }`}
+                    >
                       <p>{link.title}</p>
                       <FaAngleDown />
-                      <>
-                      { !subLink ? (<div className=" hidden">
-                         No catalog data
-                      </div>) : (
-                         subLink.length > 0 && (
-                        <div
-                          className="absolute top-full left-1/2 -translate-x-1/2 mt-2 
-                        bg-richblack-25 text-richblack-900 rounded-md 
-                        flex flex-col gap-3 p-3 min-w-[200px] z-20
-                        opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all">
-
-                          <div
-                            className="absolute top-[-6px] left-1/2 -translate-x-1/2 
-                          w-3 h-3 bg-richblack-25 rotate-45"
-                          ></div>
-                          {
-                           
-                              subLink.map((subItem, index) => (
-                                <Link to={`${subItem.link}`} key={index}>
-                                  <p className=" text-richblack-900">{subItem.name}</p>
+                      <div className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-150 group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]">
+                        <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
+                        {loading ? (
+                          <p className="text-center">Loading...</p>
+                        ) : subLinks.length ? (
+                          <>
+                            {subLinks
+                              ?.filter(
+                                (subLink) => subLink?.courses?.length > 0
+                              )
+                              ?.map((subLink, i) => (
+                                <Link
+                                  to={`/catalog/${subLink.name
+                                    .split(" ")
+                                    .join("-")
+                                    .toLowerCase()}`}
+                                  className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
+                                  key={i}
+                                >
+                                  <p>{subLink.name}</p>
                                 </Link>
-                              ))
-                      
-                          }
-                        </div>
-                       ) 
-                      )
-                        
-                      }
-                      </>
+                              ))}
+                          </>
+                        ) : (
+                          <p className="text-center">No Courses Found</p>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  </>
+
+
+
+
+
+
+
                 ) : (
                   <Link to={link?.path}>
                     <p
@@ -182,6 +194,7 @@ function NavBar() {
       </div>
     </div>
   );
+  
 }
 
 export default NavBar;
