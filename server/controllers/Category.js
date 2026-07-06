@@ -59,10 +59,10 @@ exports.showAllCategories = async (req, res ) =>{
 exports.categoryPageDetails = async (req, res) =>{
     try{
         // get categories id from request
-        const{categoryID} = req.body;
+        const{categoryId} = req.body;
 
         // Get courses for the specified category
-        const selectedCategoryData = await Category.findById(categoryID)
+        const selectedCategoryData = await Category.findById(categoryId)
                                                 .populate("courses")
                                                 .exec();
         console.log("Selected Categories Details:---",selectedCategoryData);
@@ -84,7 +84,7 @@ exports.categoryPageDetails = async (req, res) =>{
             });
         }
         // get courses for others categories
-        const otherCategoriesData = await Category.findById({_id: {$ne: categoryID}})
+        const otherCategoriesData = await Category.findById( {$ne: categoryId})
                                                             .populate("courses")
                                                             .exec();
         
