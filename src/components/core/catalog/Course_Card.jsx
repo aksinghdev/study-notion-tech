@@ -24,7 +24,7 @@ function Course_Card({ course, Height }) {
         <div className="">
           <div className="rounded-lg">
             <img
-              src={course?.thumbnail}
+              src={course?.thumbnailImg}
               alt="course thumnail"
               className={`${Height} w-full rounded-xl object-cover `}
             />

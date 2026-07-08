@@ -71,7 +71,7 @@ exports.categoryPageDetails = async (req, res) =>{
         if(!selectedCategoryData){
             return res.status(502).json({
                 success: false,
-                message : "category not foud plese try again"
+                message : "category not foud plese try again" 
             });
         }
 

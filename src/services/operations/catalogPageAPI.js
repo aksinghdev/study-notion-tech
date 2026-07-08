@@ -18,7 +18,9 @@ export const getCatalogPageData = async (categoryId) =>{
         if(!responce?.data?.success){
             throw new Error("Couldn't fetch catalog page data ...")
         }
-        result = responce?.data;
+        console.log("Print catalog page data responce : ",responce);
+        result = responce?.data?.data;
+        console.log("Print final result inside catalog page data : ",result);
     }
     catch(error){
         console.log("Catalog page data API error ......", error);

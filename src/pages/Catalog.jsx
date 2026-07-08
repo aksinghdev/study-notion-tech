@@ -37,8 +37,9 @@ function Catalog() {
     if (categoryId) {
       ;(async () => {
         try {
-          const res = await getCatalogPageData(categoryId)
-          setCatalogPageData(res)
+          const response = await getCatalogPageData(categoryId)
+          setCatalogPageData(response)
+          console.log("print responce in catalog jxs : ",response)
         } catch (error) {
           console.log(error)
         }
@@ -53,7 +54,7 @@ function Catalog() {
       </div>
     )
   }
-  if (!loading && !catalogPageData.success) {
+  if (!loading && !catalogPageData) {
     return <Error />
   }
 
@@ -65,14 +66,14 @@ function Catalog() {
           <p className="text-sm text-richblack-300">
             {`Home / Catalog / `}
             <span className="text-yellow-25">
-              {catalogPageData?.data?.selectedCategory?.name}
+              {catalogPageData?.selectedCategoryData?.name}
             </span>
           </p>
           <p className="text-3xl text-richblack-5">
-            {catalogPageData?.data?.selectedCategory?.name}
+            {catalogPageData?.selectedCategoryData?.name}
           </p>
           <p className="max-w-[870px] text-richblack-200">
-            {catalogPageData?.data?.selectedCategory?.description}
+            {catalogPageData?.selectedCategoryData?.description}
           </p>
         </div>
       </div>
@@ -104,18 +105,18 @@ function Catalog() {
         </div>
         <div>
           <Course_Slider
-            Courses={catalogPageData?.data?.selectedCategory?.courses}
+            Courses={catalogPageData?.selectedCategoryData?.courses}
           />
         </div>
       </div>
       {/* Section 2 */}
       <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
         <div className="section_heading">
-          Top courses in {catalogPageData?.data?.differentCategory?.name}
+          Top courses in {catalogPageData?.otherCategoriesData?.name}
         </div>
         <div className="py-8">
           <Course_Slider
-            Courses={catalogPageData?.data?.differentCategory?.courses}
+            Courses={catalogPageData?.otherCategoriesData?.courses}
           />
         </div>
       </div>

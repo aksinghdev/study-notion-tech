@@ -14,6 +14,9 @@ import {FreeMode, Pagination} from "swiper/modules"
 import Course_Card from "./Course_Card"
 
 function Course_Slider({ Courses }) {
+
+  console.log("print courses : ",Courses);
+
   return (
     <>
       {Courses?.length ? (
