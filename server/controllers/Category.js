@@ -1,6 +1,10 @@
 
 const Category = require("../models/Category");
 
+function getRandomInt(max){
+    return Math.floor(Math.random() * max)
+}
+
 exports.createCategory = async (req, res ) =>{
     try{
         // fetch the data
@@ -62,9 +66,11 @@ exports.categoryPageDetails = async (req, res) =>{
         const{categoryId} = req.body;
 
         // Get courses for the specified category
-        const selectedCategoryData = await Category.findById(categoryId)
-                                                .populate("courses")
-                                                .exec();
+        const selectedCategoryData = await Category.findById(categoryId).populate({
+            path: "courses",
+            match : {status : "Published"},
+            populate : "ratingsAndReviews", 
+        }).exec();
         console.log("Selected Categories Details:---",selectedCategoryData);
     // Validation
         // Handle the case when the category is not found
@@ -83,13 +89,24 @@ exports.categoryPageDetails = async (req, res) =>{
                 message : "category courses not found or 0 courses for this category"
             });
         }
-        // get courses for others categories
-        const otherCategoriesData = await Category.findById( {$ne: categoryId})
-                                                            .populate("courses")
-                                                            .exec();
+    // get courses for others categories
+        const differentCatagory = await Category.find({ _id : {$ne: categoryId}})
+        let otherCategoriesData = await Category.findOne(differentCatagory[getRandomInt(differentCatagory.length)]._id)
+        .populate({
+            path : "courses",
+            match : {status : "Published"},
+            populate : "ratingsAndReviews"
+        }).exec();
         
-        
-        // get top selling courses
+        // console.log("Print other catagory data :  ", otherCategoriesData);
+    // get-top selling courses across all categories
+        const allCatagories = await Category.find().populate({
+            path : "courses",
+            match : {status : "Published"}
+        }).exec();
+        const allCourses = allCatagories.flatMap((category) => category.courses)
+        console.log("Print all courses : ",allCourses);
+        const topSellingCourses = allCourses.sort((A , B) => B.studentEnrolled.length - A.studentEnrolled.length).slice(0, 10);
         
         // get related courses
         // return responce
@@ -99,6 +116,7 @@ exports.categoryPageDetails = async (req, res) =>{
             data:{
                 selectedCategoryData,
                 otherCategoriesData,
+                topSellingCourses,
             },
         });
             

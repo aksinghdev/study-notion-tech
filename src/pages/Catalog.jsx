@@ -24,6 +24,7 @@ function Catalog() {
     ;(async () => {
       try {
         const res = await apiConnector("GET", categories.CATEGORIES_API)
+        // console.log("print responce inside catalog jsx file : --> ",res)
         const category_id = res?.data?.data?.filter(
           (ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName
         )[0]._id
@@ -78,9 +79,9 @@ function Catalog() {
         </div>
       </div>
 
-      {/* Section 1 */}
+      {/* Section-1 - Selected catagories courses render */}
       <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-        <div className="section_heading">Courses to get you started</div>
+        <div className=" text-richblack-50 text-lg">Courses to get you started</div>
         <div className="my-4 flex border-b border-b-richblack-600 text-sm">
           <p
             className={`px-4 py-2 ${
@@ -109,9 +110,11 @@ function Catalog() {
           />
         </div>
       </div>
-      {/* Section 2 */}
+
+
+      {/* Section-2  -  Other Catagories courses render */}
       <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-        <div className="section_heading">
+        <div className="text-richblack-50 text-lg">
           Top courses in {catalogPageData?.otherCategoriesData?.name}
         </div>
         <div className="py-8">
@@ -121,12 +124,12 @@ function Catalog() {
         </div>
       </div>
 
-      {/* Section 3 */}
+      {/* Section-3   -  Show top selling courses from all categories */}
       <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-        <div className="section_heading">Frequently Bought</div>
+        <div className="text-richblack-50 text-lg">Frequently Bought</div>
         <div className="py-8">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            {catalogPageData?.data?.mostSellingCourses
+            {catalogPageData?.topSellingCourses
               ?.slice(0, 4)
               .map((course, i) => (
                 <Course_Card course={course} key={i} Height={"h-[400px]"} />
