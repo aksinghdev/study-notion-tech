@@ -36,7 +36,7 @@ async function sendEmailOtp(email, otp) {
     }
 }
 // use pre middleware for sending email before save the data in database
-otpSchema.pre("save",async function (next) {
+OtpSchema.pre("save",async function (next) {
     await sendEmailOtp(this.email, this.otp);
     next();
 })
