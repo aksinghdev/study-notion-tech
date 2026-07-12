@@ -1,7 +1,8 @@
 
 // require("dotenv").config();
 
-const BASE_URL = process.env.REACT_APP_BASE_URL
+const URL = process.env.REACT_APP_BASE_URL
+const BASE_URL = URL + "api/v1";
 
 console.log("base url", BASE_URL);
 // http://localhost:3000/api/v1/(auth)
