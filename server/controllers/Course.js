@@ -32,8 +32,8 @@ exports.createCourse = async (req, res ) =>{
         const thumbnail = req.files.thumbnailImage;
 
 
-        console.log("fetching data--> ",courseName,  courseDescription,  whatYouLearn,  price,  tag,  category,  instructions);
-        console.log("Fetched thumbnail : ",thumbnail);
+        // console.log("fetching data--> ",courseName,  courseDescription,  whatYouLearn,  price,  tag,  category,  instructions);
+        // console.log("Fetched thumbnail : ",thumbnail);
 
         // validation of data
         if(!courseName ||
@@ -55,7 +55,7 @@ exports.createCourse = async (req, res ) =>{
         // check and get instructor
         const userId = req.user.id;
         const Instructor = await User.findById(userId);
-        console.log("present Instructor is :___----",Instructor);
+        // console.log("present Instructor is :___----",Instructor);
         if(!Instructor){
             return res.status(401).json({
                 success : false,
@@ -64,7 +64,7 @@ exports.createCourse = async (req, res ) =>{
         }
         // validation for tag 
         const categoryDetails = await Category.findById(category);
-        console.log('categoryDetails is :---',categoryDetails);
+        // console.log('categoryDetails is :---',categoryDetails);
         if(!categoryDetails){
             return res.status(402).json({
                 success : false,
@@ -80,7 +80,7 @@ exports.createCourse = async (req, res ) =>{
                 
             }
             
-            console.log("print uploaded thumbnail--->",uploadedThumbnail);
+            // console.log("print uploaded thumbnail--->",uploadedThumbnail);
             
         // create an entry to db for new course
         const newCourse = await Course.create({
@@ -95,7 +95,7 @@ exports.createCourse = async (req, res ) =>{
 			instructions: instructions,
             instructor : Instructor._id,
         });
-        console.log('created course :----', newCourse);
+        // console.log('created course :----', newCourse);
         // update user schema
         await User.findByIdAndUpdate(
             {_id : Instructor._id},
@@ -380,7 +380,11 @@ exports.getInstructorCourses = async (req, res) => {
         // find all courses
         const instructorCourses = await Course.find(
             {instructor : instructorId}
-        ).populate("category")
+        ).populate({
+            path : "courseContent",
+            populate: {path : "subsection"}
+        })
+        .populate("category")
         .populate("ratingsAndReviews")
         .lean()  // to convert plain js object
         .sort({createdAt : -1})

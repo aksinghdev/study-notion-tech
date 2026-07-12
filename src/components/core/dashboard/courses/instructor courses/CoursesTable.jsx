@@ -39,7 +39,7 @@ export default function CoursesTable({ courses, setCourses }) {
     setLoading(false)
   }
 
-  // console.log("All Course ", courses)
+  console.log("All Course ", courses)
 
   return (
     <>
@@ -112,7 +112,8 @@ export default function CoursesTable({ courses, setCourses }) {
                   </div>
                 </Td>
                 <Td className="text-sm font-medium text-richblack-100">
-                  2hr 30min
+                   {/* {!course.courseContent?.subsection?.timeDuration ? <p>2hrs 30mins</p> : */}
+                    <p>{course.courseContent[0]?.subsection[0]?.timeDuration}</p>
                 </Td>
                 <Td className="text-sm font-medium text-richblack-100">
                   ₹{course.price}

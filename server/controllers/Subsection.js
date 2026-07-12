@@ -1,6 +1,7 @@
 const Subsection = require("../models/Subsection");
 const Section = require("../models/Section");
 const {fileUploadCloudinary} = require('../utilities/FileUpload');
+const {FormateDuration} = require('../utilities/DurationFormater')
 require("dotenv").config();
 
 // create subsection handler
@@ -28,11 +29,16 @@ exports.createSubsection = async (req, res) =>{
         }
         // upload video file to cloudinary to get video url
         const output = await fileUploadCloudinary(videoFile, process.env.FOLDER_NAME);
+        console.log("Print Upload output : ",output);
+        // set video duration 
+        const videoDuration = FormateDuration(output.duration);
+        console.log("print video duration",videoDuration);
+
         // create subsection
         const newSubSection = await Subsection.create({
             // title : title,
             title,
-            timeDuration,
+            timeDuration : videoDuration,
             description,
             videoUrl:output.secure_url,
 
