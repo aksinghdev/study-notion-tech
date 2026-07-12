@@ -22,7 +22,8 @@ Cloudinary();
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "http://localhost:3001"
+  "http://localhost:3001",
+  "https://study-notion-git-601882-abhishek-kumar-singhs-projects-f864c1bd.vercel.app"
 ];
 
 // middlewares
