@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const mailSender = require("../utilities/mailSender");
 const otpTemplate = require("../emailTemplates/otpVerificationTemplate");
 
-const otpSchema = new mongoose.Schema({
+const OtpSchema = new mongoose.Schema({
     email : {
         type : String,
         required : true,
@@ -41,5 +41,5 @@ otpSchema.pre("save",async function (next) {
     next();
 })
 
-const OTP = mongoose.model("OTP", otpSchema);
+const OTP = mongoose.model("OTP", OtpSchema);
 module.exports = OTP;
