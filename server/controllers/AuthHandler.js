@@ -9,7 +9,6 @@ const cookies = require("cookies");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const { json } = require("express");
-const { useId } = require("react");
 const { data } = require("react-router-dom");
 
 // Send otp for sign up Handler
