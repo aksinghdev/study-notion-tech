@@ -17,28 +17,28 @@ const About = () =>{
 return(
     <div className="relative">
         {/* photo section */}
-        <section className=" w-11/12 flex items-center justify-center mx-auto absolute top-[350px]">
-            <div className="flex flex-row gap-5 w-[%] mx-auto">
-                <img src={about1} alt="img1" loading="lazy"
+        <section className=" w-11/12 flex items-center justify-center mx-auto mt-8 lg:mt-0 lg:absolute lg:top-[350px]">
+            <div className="flex flex-row gap-3 sm:gap-5 w-full sm:w-[90%] mx-auto justify-center">
+                <img src={about1} alt="img1" loading="lazy" className="w-[32%] sm:w-auto object-cover rounded-md"
                 />
-                <img src={about2} alt="img2" loading="lazy"
+                <img src={about2} alt="img2" loading="lazy" className="w-[32%] sm:w-auto object-cover rounded-md"
                 />
-                <img src={about3} alt="img3" loading="lady"
+                <img src={about3} alt="img3" loading="lady" className="w-[32%] sm:w-auto object-cover rounded-md"
                 />
             </div>
         </section>
         {/* Header section */}
-        <section className="bg-richblack-800 text-richblack-5 w-screen flex mx-auto items-center pb-32">
+        <section className="bg-richblack-800 text-richblack-5 w-screen flex mx-auto items-center pb-16 lg:pb-32">
             <header className=" flex flex-col items-center justify-center gap-8 w-11/12 mx-auto ">
-                <div className=" w-[76%] flex flex-col gap-10 items-center justify-center mt-16 pb-36">
+                <div className=" w-full sm:w-[76%] flex flex-col gap-6 lg:gap-10 items-center justify-center mt-8 lg:mt-16 pb-8 lg:pb-36">
                     <p className=" text-richblack-200">About Us</p>
-                    <h1 className=" text-3xl font-bold font-inter text-center w-[70%]">
+                    <h1 className=" text-2xl sm:text-3xl font-bold font-inter text-center w-full sm:w-[70%]">
                         Driving Innovation in Online Education for a
                         <span>
                             <HighlightText text={"Brighter Future"}/>
                         </span>
                     </h1>
-                    <p className=" text-richblack-300 text-center font-inter w-[70%] px-1 -mt-5">
+                    <p className=" text-richblack-300 text-center font-inter text-sm sm:text-base w-full sm:w-[70%] px-1 -mt-5">
                         Studynotion is at the forefront of driving innovation in online education. We're passionate about creating a brighter future by offering cutting-edge courses, leveraging emerging technologies, and nurturing a vibrant learning community.
                     </p>
                     <div className= " w-[20%] h-[40%] opacity-70 blur-xl ring-transparent bg-brown-500 ">
@@ -49,16 +49,16 @@ return(
         </section>
         {/* sectiion 02 Quote */}
         <section className=" border-b-richblack-800 border-[1px]">
-            <div className=" flex flex-col items-center justify-center gap-8 w-11/12 mx-auto mt-36">
+            <div className=" flex flex-col items-center justify-center gap-8 w-11/12 mx-auto mt-16 lg:mt-36">
                 <Quote/>
             </div>
         </section>
         {/* section-03 our story and vision section */}
         <section>
             <div className=" w-11/12 flex flex-col justify-center items-center mx-auto max-w-maxContent gap-10">
-                <div className=" flex flex-col lg:flex-row gap-24 items-center justify-center text-richblack-300 text-base">
-                    <div className=" flex  flex-col gap-5 items-start justify-center p-12 w-[45%]">
-                        <div className=" text-3xl font-semibold">
+                <div className=" flex flex-col lg:flex-row gap-8 lg:gap-24 items-center justify-center text-richblack-300 text-sm sm:text-base">
+                    <div className=" flex  flex-col gap-5 items-start justify-center p-4 lg:p-12 w-full lg:w-[45%]">
+                        <div className=" text-2xl sm:text-3xl font-semibold">
                             <HighlightText text={"Our Founding Story"} color={" text-transparent bg-foundgradient bg-clip-text"} />
                         </div>
                         <p className=" mt-2">
@@ -73,24 +73,24 @@ return(
                              individuals from all walks of life to unlock their full potential.
                         </p>
                     </div>
-                    <div className=" relative ">
+                    <div className=" relative w-full lg:w-auto flex justify-center px-4">
                         
                             <img src={FoundingStory}
-                                className=" h-fit z-20"
+                                className=" h-fit z-20 w-full sm:w-auto"
         
                                 alt="Founding story image"
                                 loading="lazy"
                             />
                         
-                        <div className=" w-[372px] h-[257px] rounded-full z-0 opacity-30 blur-3xl absolute top-1 left-10 bg-pink-700">
+                        <div className=" w-[220px] sm:w-[372px] h-[150px] sm:h-[257px] rounded-full z-0 opacity-30 blur-3xl absolute top-1 left-10 bg-pink-700">
 
                         </div>
                     </div>
                 </div>
 
-                <div className=" flex flex-row gap-28 items-center justif mx-auto text-richblack-300 text-base w-[82%]">
-                    <div className=" flex flex-col gap-5 items-start justify-center   ">
-                        <h1 className=" font-semibold text-3xl">
+                <div className=" flex flex-col lg:flex-row gap-10 lg:gap-28 items-center justif mx-auto text-richblack-300 text-sm sm:text-base w-full sm:w-[90%] lg:w-[82%]">
+                    <div className=" flex flex-col gap-5 items-start justify-center w-full  ">
+                        <h1 className=" font-semibold text-2xl sm:text-3xl">
                             <HilightText text={"Our Vision"} color={" text-transparent bg-browngradient bg-clip-text"} />
                         </h1>
                         <p>
@@ -101,8 +101,8 @@ return(
                               technology with engaging content,fostering a dynamic and interactive learning experience.
                         </p>
                     </div>
-                    <div className=" flex flex-col gap-5 items-start justify-center  ml">
-                        <h1 className=" text-3xl font-semibold">
+                    <div className=" flex flex-col gap-5 items-start justify-center w-full ml">
+                        <h1 className=" text-2xl sm:text-3xl font-semibold">
                             <HilightText text={"Our Mission"}  />
                         </h1>
                         <p>

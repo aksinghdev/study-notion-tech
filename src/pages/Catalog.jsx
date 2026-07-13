@@ -1,5 +1,4 @@
 
-
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
@@ -70,7 +69,7 @@ function Catalog() {
               {catalogPageData?.selectedCategoryData?.name}
             </span>
           </p>
-          <p className="text-3xl text-richblack-5">
+          <p className="text-2xl sm:text-3xl text-richblack-5">
             {catalogPageData?.selectedCategoryData?.name}
           </p>
           <p className="max-w-[870px] text-richblack-200">
@@ -132,7 +131,7 @@ function Catalog() {
             {catalogPageData?.topSellingCourses
               ?.slice(0, 4)
               .map((course, i) => (
-                <Course_Card course={course} key={i} Height={"h-[400px]"} />
+                <Course_Card course={course} key={i} Height={"h-[220px] sm:h-[400px]"} />
               ))}
           </div>
         </div>

@@ -1,4 +1,5 @@
 
+
 import { data } from "react-router-dom";
 import {LearningGridArray} from "../../../data/LearningGridData";
 import HighlightText from "../../common/HighlightText"
@@ -6,7 +7,7 @@ import CTAButton from "../homepage/Button"
 
 function LearningGrid (){
     return(
-        <div className=" grid lg:grid-cols-4 text-white mt-20 p-5">
+        <div className=" grid grid-cols-1 lg:grid-cols-4 text-white mt-10 lg:mt-20 p-5">
             {
                 LearningGridArray.map( (card, index)=>(
                     <div
@@ -18,8 +19,8 @@ function LearningGrid (){
                     >
                         {
                             card.order < 0 ? (
-                                <div className=" flex flex-col text-start items-start justify-center gap-3   w-[85%]  ml-16 p-8 lg:h-[290px] ">
-                                    <div className=" flex flex-col gap-0 items-start justify-center text-center text-2xl font-semibold"> 
+                                <div className=" flex flex-col text-start items-start justify-center gap-3   w-full lg:w-[85%]  ml-0 lg:ml-16 p-4 lg:p-8 lg:h-[290px] ">
+                                    <div className=" flex flex-col gap-0 items-start justify-center text-center text-xl sm:text-2xl font-semibold"> 
                                         <h1 className=" ">
                                             {card.heading}
                                         </h1>
@@ -38,7 +39,7 @@ function LearningGrid (){
                                 </div>
                             ):
                             (
-                                <div className="p-8 pr-12 lg:h-[290px] w-[94%] flex flex-col gap-5 ">
+                                <div className="p-4 lg:p-8 lg:pr-12 lg:h-[290px] w-full lg:w-[94%] flex flex-col gap-5 ">
                                     <h1 className=" text-lg font-semibold">
                                         {card.heading}
                                     </h1>

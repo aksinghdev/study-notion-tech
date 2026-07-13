@@ -1,9 +1,8 @@
-
 import HilightText from "../../common/HighlightText";
 
 const Quote = () =>{
     return(
-        <div className="text-richblack-100   text-center font-inter font-[600] text-3xl py-24 px-5 w-[75%]">
+        <div className="text-richblack-100   text-center font-inter font-[600] text-xl sm:text-2xl lg:text-3xl py-12 lg:py-24 px-5 w-full sm:w-[75%]">
             <span className=" text-richblack-600 text-6xl p-0 m-0">
                 
                 “</span>
