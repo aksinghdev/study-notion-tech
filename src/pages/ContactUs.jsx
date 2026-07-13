@@ -1,4 +1,3 @@
-
 import { BiChat } from "react-icons/bi";
 import { IoMdChatboxes } from "react-icons/io";
 import { BiWorld } from "react-icons/bi";
@@ -9,9 +8,9 @@ import Footer from "../components/common/Footer";
 export default function ContactUs(){
     return(
         <div>
-            <div className=" w-11/12 mx-auto flex flex-col lg:flex-row  justify-center mt-20 gap-16">
+            <div className=" w-11/12 mx-auto flex flex-col lg:flex-row  justify-center mt-10 lg:mt-20 gap-8 lg:gap-16">
                 {/* card with icon */}
-                <div className=" flex flex-col gap-5 items-start justify-center w-[30%] bg-richblack-800 p-8 h-fit rounded-xl">
+                <div className=" flex flex-col gap-5 items-start justify-center w-full lg:w-[30%] bg-richblack-800 p-6 lg:p-8 h-fit rounded-xl">
                     <div className=" flex flex-row gap-3 text-center text-richblack-100">
                         {/* icon */}
                         <div className=" text-center py-2 items-center place-items-center  text-lg">
@@ -53,12 +52,12 @@ export default function ContactUs(){
                     </div>
                 </div>
                 {/* form section */}
-                <div className=" w-[50%] flex flex-col gap-8 border-[1px] border-richblack-800 rounded-xl p-14">
+                <div className=" w-full lg:w-[50%] flex flex-col gap-8 border-[1px] border-richblack-800 rounded-xl p-6 lg:p-14">
                     <div className=" flex flex-col gap-4 text-richblack-5 justify-center">
-                        <h1 className=" text-4xl font-semibold ">
+                        <h1 className=" text-2xl sm:text-3xl lg:text-4xl font-semibold ">
                             Got a Idea? We’ve got the skills. Let’s team up
                         </h1>
-                        <p className="  font-inter font-medium text-richblack-300">
+                        <p className="  font-inter font-medium text-richblack-300 text-sm sm:text-base">
                             Tall us more about yourself and what you’re got in mind.
                         </p>
                     </div>
