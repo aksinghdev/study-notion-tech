@@ -1,3 +1,4 @@
+
 import { RiEditBoxLine } from "react-icons/ri"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
@@ -15,21 +16,21 @@ export default function MyProfile() {
 
   return (
     <>
-      <h1 className="mb-14 text-3xl font-medium text-richblack-5">
+      <h1 className="mb-8 lg:mb-14 text-2xl sm:text-3xl font-medium text-richblack-5">
         My Profile
       </h1>
-      <div className="flex items-center justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 w-full">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-4 sm:p-8 sm:px-12 w-full">
         <div className="flex items-center gap-x-4">
           <img
             src={user?.userImage}
             alt={`profile-${user?.firstName}`}
-            className="aspect-square w-[78px] rounded-full object-cover"
+            className="aspect-square w-[60px] sm:w-[78px] rounded-full object-cover"
           />
           <div className="space-y-1">
-            <p className="text-lg font-semibold text-richblack-5">
+            <p className="text-base sm:text-lg font-semibold text-richblack-5">
               {user?.firstName + " " + user?.lastName}
             </p>
-            <p className="text-sm text-richblack-300">{user?.email}</p>
+            <p className="text-sm text-richblack-300 break-all">{user?.email}</p>
           </div>
         </div>
             <BtnIcon
@@ -42,7 +43,7 @@ export default function MyProfile() {
             <RiEditBoxLine />
           </BtnIcon>
       </div>
-      <div className="my-10 flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
+      <div className="my-8 lg:my-10 flex flex-col gap-y-6 lg:gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-4 sm:p-8 sm:px-12">
         <div className="flex w-full items-center justify-between">
           <p className="text-lg font-semibold text-richblack-5">About</p>
             <BtnIcon
@@ -65,7 +66,7 @@ export default function MyProfile() {
           {user?.additionalDetails?.about ?? "Write Something About Yourself"}
         </p>
       </div>
-      <div className="my-10 flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
+      <div className="my-8 lg:my-10 flex flex-col gap-y-6 lg:gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-4 sm:p-8 sm:px-12">
         <div className="flex w-full items-center justify-between">
           <p className="text-lg font-semibold text-richblack-5">
             Personal Details
@@ -81,7 +82,7 @@ export default function MyProfile() {
           </BtnIcon>
           {/* <EditButton/> */}
         </div>
-        <div className="flex max-w-[500px] justify-between">
+        <div className="flex flex-col sm:flex-row gap-8 sm:gap-4 sm:max-w-[500px] sm:justify-between">
           <div className="flex flex-col gap-y-5">
             <div>
               <p className="mb-2 text-sm text-richblack-600">First Name</p>

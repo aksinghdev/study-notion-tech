@@ -65,7 +65,7 @@ export default function EditProfilePicture(){
     },[imageFile]);
 
     return(
-        <div className="flex items-center gap-x-8 justify-start rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 w-full">
+        <div className="flex flex-col sm:flex-row items-center sm:items-center gap-6 sm:gap-x-8 justify-start rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-4 sm:p-8 sm:px-12 w-full">
             {/* for image */}
             <div className="flex items-center gap-x-4">
                 <img
@@ -75,13 +75,13 @@ export default function EditProfilePicture(){
                 />
             </div>
             {/* for text content */}
-            <div className=" flex flex-col gap-5 ">
+            <div className=" flex flex-col gap-5 items-center sm:items-start text-center sm:text-left">
                 {/* for heading */}
                 <h2 className="text-lg font-semibold text-richblack-5">
                     Edit Profile Picture
                 </h2>
                 {/* for buttons */}
-                <div className=" flex flex-row gap-6">
+                <div className=" flex flex-row flex-wrap justify-center gap-4 sm:gap-6">
                     <input
                         type="file"
                         ref={fileInputRef}

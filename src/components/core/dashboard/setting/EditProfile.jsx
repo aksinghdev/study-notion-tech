@@ -1,4 +1,3 @@
-
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { data, useNavigate } from "react-router-dom";
@@ -35,7 +34,7 @@ export default function EditProfile(){
     return(
         <>
             <form onSubmit={handleSubmit(submitProfileForm)}>
-                <div className="my-10 flex flex-col gap-y-6 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
+                <div className="my-8 lg:my-10 flex flex-col gap-y-6 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-4 sm:p-8 sm:px-12">
                     <h2 className=" text-start flex items-start text-lg font-semibold text-richblack-5">
                         Profile Information
 
@@ -308,4 +307,3 @@ export default function EditProfile(){
         </>
     );
 }
-
