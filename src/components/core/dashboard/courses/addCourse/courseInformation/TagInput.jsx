@@ -74,6 +74,10 @@ export default function TagInput ({lable, name, placeholder, setValue, getValues
                     boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
                  }}
                 />
+                <button className="block md:hidden lg:hidden px-4 py-2 bg-yellow-400 text-black rounded-md font-medium"
+                onClick={() => addChip(inputValue)}>
+                    Add
+                </button>
             </div>
             {errors[name] && (
             <span className="ml-2 text-xs tracking-wide text-pink-200">
