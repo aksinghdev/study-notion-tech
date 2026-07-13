@@ -1,3 +1,4 @@
+
 import { useSelector } from "react-redux"
 
 import RenderCartCourses from "./RenderCartCourses"
@@ -16,7 +17,7 @@ export default function Cart() {
 
   return (
     <>
-      <h1 className="mb-14 text-3xl font-medium text-richblack-5">Cart</h1>
+      <h1 className="mb-8 lg:mb-14 text-2xl sm:text-3xl font-medium text-richblack-5">Cart</h1>
       <p className="border-b border-b-richblack-400 pb-2 font-semibold text-richblack-400">
         {totalItems} Courses in Cart
       </p>
@@ -26,7 +27,7 @@ export default function Cart() {
           <RenderTotalAmount />
         </div>
       ) : (
-        <p className="mt-14 text-center text-3xl text-richblack-100">
+        <p className="mt-14 text-center text-xl sm:text-3xl text-richblack-100">
           Your cart is empty
         </p>
       )}

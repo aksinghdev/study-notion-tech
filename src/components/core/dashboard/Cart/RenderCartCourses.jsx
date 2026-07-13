@@ -1,5 +1,4 @@
 
-
 import { FaStar } from "react-icons/fa"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import ReactStars from "react-rating-stars-component"
@@ -15,7 +14,7 @@ export default function RenderCartCourses() {
       {cart.map((course, indx) => (
         <div
           key={course._id}
-          className={`flex w-full flex-wrap items-start justify-between gap-6 ${
+          className={`flex w-full flex-wrap items-start justify-between gap-4 sm:gap-6 ${
             indx !== cart.length - 1 && "border-b border-b-richblack-400 pb-6"
           } ${indx !== 0 && "mt-6"} `}
         >
@@ -23,7 +22,7 @@ export default function RenderCartCourses() {
             <img
               src={course?.thumbnail}
               alt={course?.courseName}
-              className="h-[148px] w-[220px] rounded-lg object-cover"
+              className="w-full sm:w-[220px] h-[180px] sm:h-[148px] rounded-lg object-cover"
             />
             <div className="flex flex-col space-y-1">
               <p className="text-lg font-medium text-richblack-5">
