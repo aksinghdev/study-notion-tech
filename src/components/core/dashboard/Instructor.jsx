@@ -51,7 +51,7 @@ export default function Instructor() {
         <div className="spinner"></div>
       ) : courses.length > 0 ? (
         <div>
-          <div className="my-4 flex h-[450px] space-x-4">
+          <div className="my-4 flex flex-col lg:flex-row lg:h-[450px] gap-4 lg:space-x-4">
             {/* Render chart / graph */}
             {totalAmount > 0 || totalStudents > 0 ? (
               <InstructorChart courses={instructorData} />
@@ -64,7 +64,7 @@ export default function Instructor() {
               </div>
             )}
             {/* Total Statistics */}
-            <div className="flex min-w-[250px] flex-col rounded-md bg-richblack-800 p-6">
+            <div className="flex w-full lg:min-w-[250px] lg:w-auto flex-col rounded-md bg-richblack-800 p-6">
               <p className="text-lg font-bold text-richblack-5">Statistics</p>
               <div className="mt-4 space-y-4">
                 <div>
@@ -96,9 +96,9 @@ export default function Instructor() {
                 <p className="text-xs font-semibold text-yellow-50">View All</p>
               </Link>
             </div>
-            <div className="my-4 flex items-start space-x-6">
+            <div className="my-4 flex flex-col sm:flex-row items-start gap-6 sm:space-x-6">
               {courses.slice(0, 3).map((course) => (
-                <div key={course._id} className="w-1/3">
+                <div key={course._id} className="w-full sm:w-1/3">
                   <img
                     src={course.thumbnailImg}
                     alt={course.courseName}

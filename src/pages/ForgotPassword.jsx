@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -22,8 +23,8 @@ export default function ForgotPassword() {
         {loading ? (
           <div>Loading...</div>
         ) : (
-          <div className=" w-[30%] p-6 flex flex-col gap-3">
-            <h1 className=" font-semibold text-3xl font-inter">{emailSend ? "Check Email" : "Reset Your Password"}</h1>
+          <div className=" w-[90%] sm:w-[60%] lg:w-[30%] p-6 flex flex-col gap-3">
+            <h1 className=" font-semibold text-2xl sm:text-3xl font-inter">{emailSend ? "Check Email" : "Reset Your Password"}</h1>
             <p className=" text-richblack-100 font-normal ">
               {emailSend
                 ? `We have sent the reset email to ${email}`

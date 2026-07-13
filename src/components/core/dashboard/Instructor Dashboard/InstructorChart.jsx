@@ -1,5 +1,4 @@
 
-
 import { useState } from "react"
 import { Chart, registerables } from "chart.js"
 import { Pie } from "react-chartjs-2"
@@ -51,7 +50,7 @@ export default function InstructorChart({ courses }) {
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-y-4 rounded-md bg-richblack-800 p-6">
+    <div className="flex flex-1 flex-col gap-y-4 rounded-md bg-richblack-800 p-6 h-[350px] lg:h-auto">
       <p className="text-lg font-bold text-richblack-5">Visualize</p>
       <div className="space-x-4 font-semibold">
         {/* Button to switch to the "students" chart */}

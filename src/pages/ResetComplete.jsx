@@ -3,19 +3,17 @@ import { useLocation, Link} from "react-router-dom";
 import {GoArrowLeft} from "react-icons/go";
 
 export default function ResetComplete(){
-
     const location = useLocation();
     const email = location.state?.email;
 
     console.log("Print email inside reset complete",email);
     
-
     return(
         <div className=" w-screen h-screen flex flex-col items-center justify-center gap-6 text-richblack-5 overflow-y-hidden">
-            <div className=" w-[30%] p-6 flex flex-col gap-3">
+            <div className=" w-[90%] sm:w-[60%] lg:w-[30%] p-6 flex flex-col gap-3">
                 <div className=" flex flex-col gap-4 items-start justify-center">
-                    <h1 className=" font-semibold text-3xl font-inter">Reset Complete!</h1>
-                    <p className=" text-richblack-100 font-normal text-lg ">
+                    <h1 className=" font-semibold text-2xl sm:text-3xl font-inter">Reset Complete!</h1>
+                    <p className=" text-richblack-100 font-normal text-base sm:text-lg ">
                         All done! We have sent an email to m***********@gmail.com to confirm
                     </p>
                 </div>

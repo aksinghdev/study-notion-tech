@@ -45,11 +45,11 @@ export default function UpdatePassword(){
 
     return(
         <div className=" w-screen h-screen flex flex-col items-center justify-center gap-6 text-richblack-5 overflow-y-hidden">
-            <div className=" w-[30%] p-6 flex flex-col gap-3">
-                <h1 className=" font-semibold text-3xl font-inter">
+            <div className=" w-[90%] sm:w-[60%] lg:w-[30%] p-6 flex flex-col gap-3">
+                <h1 className=" font-semibold text-2xl sm:text-3xl font-inter">
                     Choose New Password
                 </h1>
-                <p className=" text-richblack-100 font-normal text-lg ">
+                <p className=" text-richblack-100 font-normal text-base sm:text-lg ">
                     Almost done. Enter your new password and youre all set.
                 </p>
 

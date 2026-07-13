@@ -41,11 +41,11 @@ function VerifyEmail(){
                     Loading...
                 </div>) :
                 (
-                    <div className=" w-[30%] p-6 flex flex-col gap-3">
-                        <h1 className=" font-semibold text-3xl font-inter">
+                    <div className=" w-[90%] sm:w-[60%] lg:w-[30%] p-6 flex flex-col gap-3">
+                        <h1 className=" font-semibold text-2xl sm:text-3xl font-inter">
                             Verify Email
                         </h1>
-                        <p className=" text-richblack-100 font-normal text-lg">
+                        <p className=" text-richblack-100 font-normal text-base sm:text-lg">
                             A verification code has been sent to you. Enter the code below
                         </p>
 
