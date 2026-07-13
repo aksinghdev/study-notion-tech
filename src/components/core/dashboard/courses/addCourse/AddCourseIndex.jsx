@@ -1,17 +1,13 @@
 
 import RenderSteps from "./RenderSteps"
 
-
-
-
-
 export default function AddCourseIndex(){
     return(
         <> 
             <div className=" flex flex-row w-full items-start gap-x-6">
             {/* course steps and form section */}
                 <div className=" flex flex-1 flex-col gap-y-5">
-                    <h1 className="mb-14 text-3xl font-medium text-richblack-5">
+                    <h1 className="mb-8 lg:mb-14 text-2xl sm:text-3xl font-medium text-richblack-5">
                     Add New Course
                     </h1>
                     <div className=" flex-1">

@@ -1,3 +1,4 @@
+
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -336,7 +337,7 @@ export default function CourseInformationForm(){
                 register={register}
             />
             {/* buttons for next and save */}
-            <div className="flex justify-end gap-x-2">
+            <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-x-2">
                 {editCourse && (
                     <button
                         disabled={loading}

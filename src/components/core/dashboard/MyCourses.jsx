@@ -1,3 +1,4 @@
+
 import { useSelector } from "react-redux";
 import Course from "./courses/Course";
 import { useNavigate } from "react-router-dom";
@@ -26,8 +27,8 @@ export default function MyCourses(){
     
     return(
         <div>
-            <div className="mb-14 flex items-center justify-between">
-                <h1 className="text-3xl font-medium text-richblack-5">My Courses</h1>
+            <div className="mb-8 lg:mb-14 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <h1 className="text-2xl sm:text-3xl font-medium text-richblack-5">My Courses</h1>
                 <BtnIcon
                 text="Add Course"
                 onclick={() => navigate("/dashboard/add-course")}

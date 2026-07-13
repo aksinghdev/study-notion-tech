@@ -1,5 +1,4 @@
 
-
 import { useDispatch, useSelector } from "react-redux"
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table"
 
@@ -45,7 +44,7 @@ export default function CoursesTable({ courses, setCourses }) {
     <>
       <Table className="rounded-xl border border-richblack-800 ">
         <Thead>
-          <Tr className="flex gap-x-10 rounded-t-md border-b border-b-richblack-800 px-6 py-2">
+          <Tr className="sm:flex gap-x-10 rounded-t-md border-b border-b-richblack-800 px-6 py-2">
             <Th className="flex-1 text-left text-sm font-medium uppercase text-richblack-100">
               Courses
             </Th>
@@ -72,13 +71,13 @@ export default function CoursesTable({ courses, setCourses }) {
             courses?.map((course) => (
               <Tr
                 key={course._id}
-                className="flex gap-x-10 border-b border-richblack-800 px-6 py-8"
+                className="sm:flex gap-x-10 border-b border-richblack-800 px-4 sm:px-6 py-6 sm:py-8"
               >
                 <Td className="flex flex-1 gap-x-4">
                   <img
                     src={course?.thumbnailImg}
                     alt={course?.courseName}
-                    className="h-[148px] w-[220px] rounded-lg object-cover"
+                    className="h-[130px] w-[130px] sm:h-[148px] sm:w-[220px] rounded-lg object-cover flex-shrink-0"
                   />
                   <div className="flex flex-col justify-between">
                     <p className="text-lg font-semibold text-richblack-5">

@@ -1,3 +1,4 @@
+
 import { useSelector } from "react-redux";
 import {FaCheck} from "react-icons/fa"
 import CourseInformationForm from "./courseInformation/CourseInformationForm"
@@ -62,10 +63,10 @@ export default function RenderSteps(){
                     steps.map( (item) => (
                         <>
                             <div
-                            className={`flex min-w-[130px] flex-col items-center gap-y-2`}
+                            className={`flex min-w-[90px] sm:min-w-[130px] flex-col items-center gap-y-2`}
                             key={item.id}
                             >
-                                <p className={`text-sm ${
+                                <p className={`text-xs sm:text-sm text-center ${
                                     step >= item.id ? "text-richblack-5" : " text-richblack-500"
                                 }`}>
                                     {item.title}

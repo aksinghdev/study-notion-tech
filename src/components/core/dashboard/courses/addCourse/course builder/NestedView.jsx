@@ -70,18 +70,18 @@ export default function NestedView ({handleEditSectionChange}){
     return(
         <>
             
-                <div className="rounded-lg bg-richblack-700 p-6 px-8">
+                <div className="rounded-lg bg-richblack-700 p-4 sm:p-6 sm:px-8">
                     {course?.courseContent.map( (section) => (
                         <details key={section._id} open>
-                            <summary className="flex cursor-pointer items-center justify-between border-b-2 border-b-richblack-600 py-2">
-                                <div className="flex items-center gap-x-3">
-                                    <RxDropdownMenu  className="text-2xl text-richblack-50"/>
-                                    <p className="font-semibold text-richblack-50">
+                            <summary className="flex cursor-pointer items-center justify-between gap-x-2 border-b-2 border-b-richblack-600 py-2">
+                                <div className="flex items-center gap-x-2 sm:gap-x-3 min-w-0">
+                                    <RxDropdownMenu  className="text-2xl text-richblack-50 flex-shrink-0"/>
+                                    <p className="font-semibold text-richblack-50 truncate">
                                         {section.sectionName}
                                     </p>
                                 </div>
                                 {/* button for edit and delete */}
-                                <div className="flex items-center gap-x-3">
+                                <div className="flex items-center gap-x-2 sm:gap-x-3 flex-shrink-0">
                                     <button
                                         onClick={() => {handleEditSectionChange(section._id, section.sectionName)}}
                                     >
@@ -107,19 +107,19 @@ export default function NestedView ({handleEditSectionChange}){
 
                             </summary>
 
-                            <div className="px-6 pb-4">
+                            <div className="px-3 sm:px-6 pb-4">
                                 {section?.subsection?.map((data)=>(
                                     <div key={data?._id}
                                     onClick={()=>setViewSubsection(data)}
-                                    className="flex cursor-pointer items-center justify-between gap-x-3 border-b-2 border-b-richblack-600 py-2"
+                                    className="flex cursor-pointer items-center justify-between gap-x-2 sm:gap-x-3 border-b-2 border-b-richblack-600 py-2"
                                     >
                                         {/* dropdown and title */}
-                                        <div className="flex items-center gap-x-3 py-2 ">
-                                            <RxDropdownMenu className="text-2xl text-richblack-50"/>
-                                            <p className="font-semibold text-richblack-50">{data.title}</p>
+                                        <div className="flex items-center gap-x-2 sm:gap-x-3 py-2 min-w-0">
+                                            <RxDropdownMenu className="text-2xl text-richblack-50 flex-shrink-0"/>
+                                            <p className="font-semibold text-richblack-50 truncate">{data.title}</p>
                                         </div>
                                         {/* for edit and delete buttons */}
-                                        <div className="flex items-center gap-x-3"
+                                        <div className="flex items-center gap-x-2 sm:gap-x-3 flex-shrink-0"
                                             onClick={(e)=> e.stopPropagation()}
                                         >
                                             <button
