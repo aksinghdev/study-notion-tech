@@ -142,7 +142,7 @@ exports.sendOTP = async (req ,res)=>{
             console.log("user email is--->",email);
             const recentOTP = await OTP.findOne({email}).sort({ createdAt: -1 }).limit(1);
             
-            console.log("getting recent otp:-->",recentOTP);
+            // console.log("getting recent otp:-->",recentOTP);
             console.log("getting recent otp:-->",recentOTP.otp);
             // validation of otp
             if(!recentOTP){
