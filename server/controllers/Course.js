@@ -2,7 +2,11 @@
 const Category = require("../models/Category");
 const Course = require("../models/Course");
 const User = require("../models/User");
-const {fileUploadCloudinary} = require("../utilities/FileUpload");
+const Section = require("../models/Section")
+const Subsection = require("../models/Subsection")
+const {fileUploadCloudinary, fileDeleteFromCloudinary} = require("../utilities/FileUpload");
+const RatingAndReview = require("../models/RatingAndReview");
+
 
 
 // Create course handeler function
@@ -411,11 +415,18 @@ exports.getInstructorCourses = async (req, res) => {
 exports.deleteCourse = async (req, res) => {
   try {
     const { courseId } = req.body
-
+    console.log( "print user id inside delete course contrl ", req.user.id)
     // Find the course
     const course = await Course.findById(courseId)
     if (!course) {
       return res.status(404).json({success : false, message: "Course not found" })
+    }
+    // verify instructor
+    if(course.instructor.toString() !== req.user.id ){
+        return res.status(403).json({
+            success : false,
+            message : "You are not authorized to delete this course"
+        });
     }
 
     // Unenroll students from the course
@@ -425,8 +436,21 @@ exports.deleteCourse = async (req, res) => {
         $pull: { courses: courseId },
       })
     }
+    // Delete course thumbnail from cloudinary
+    if(course.thumbnailImg){
+        try{
+            const deleteThumbnail = await fileDeleteFromCloudinary(course.thumbnailImg,"image")
+        }catch(err){
+            return res.status(400).json({
+                success : false,
+                message : "Thumbnail delete failed from cloudinary",
+                errror : err.message
+            })
+        }
+    }
 
-    // Delete sections and sub-sections
+
+    // Delete sections and sub-sections : With there video file
     const courseSections = course.courseContent
     for (const sectionId of courseSections) {
       // Delete sub-sections of the section
@@ -434,10 +458,23 @@ exports.deleteCourse = async (req, res) => {
       if (section) {
         const subSections = section.subsection
         for (const subSectionId of subSections) {
-          await SubSection.findByIdAndDelete(subSectionId)
+            const subSection = await Subsection.findById(subSectionId)
+            // delete video from cloudinary
+            if(subSection && subSection.videoUrl){
+                try{
+                    const deleteVideo = await fileDeleteFromCloudinary(subSection.videoUrl, "video");
+                }catch(err){
+                  return res.status(400).json({
+                    success : false,
+                    message : "video delete failed from cloudinary",
+                    errror : err.message
+                }) 
+                }
+            }
+            // delete subsection from modle
+            await Subsection.findByIdAndDelete(subSectionId)
         }
       }
-
       // Delete the section
       await Section.findByIdAndDelete(sectionId)
     }
@@ -448,6 +485,10 @@ exports.deleteCourse = async (req, res) => {
             $pull:{courses : course._id}
         }
     )
+    // Delete this course from ratings and reviews : pending
+    if(course.ratingsAndReviews && course.ratingsAndReviews.length > 0){
+        RatingAndReview.deleteMany({_id : {$in : course.ratingsAndReviews}});
+    }
     // Delete the course
     await Course.findByIdAndDelete(courseId)
 

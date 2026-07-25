@@ -1,15 +1,17 @@
 
-// require("dotenv").config();
-
+// for Production URL
 const URL = process.env.REACT_APP_BASE_URL
 const BASE_URL = URL + "/api/v1";
+
+// const BASE_URL =  process.env.REACT_APP_LOCAL_URL
+
+
+
+
 
 console.log("base url", BASE_URL);
 // http://localhost:3000/api/v1/(auth)
 
-// export const categories = {
-//     CATEGORIES_API: BASE_URL + `/course/showAllCategories`
-// }
 
 
 
