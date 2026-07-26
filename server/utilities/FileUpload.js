@@ -26,7 +26,7 @@ exports.fileDeleteFromCloudinary = async (fileUrl, resource_type ="auto") => {
         const uploadIndex = ulrParts.indexOf("upload")
         const publicidWithExtension = ulrParts.slice(uploadIndex + 2).join("/")
         // final public id
-        const publicId = publicidWithExtension.substring(0,publicidWithExtension.lastindexOf("."))
+        const publicId = publicidWithExtension.substring(0,publicidWithExtension.lastIndexOf("."))
 
         // delete file 
         return await cloudinary.uploader.destroy(publicId,{resource_type : resource_type});

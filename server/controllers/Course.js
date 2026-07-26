@@ -439,7 +439,7 @@ exports.deleteCourse = async (req, res) => {
     // Delete course thumbnail from cloudinary
     if(course.thumbnailImg){
         try{
-            const deleteThumbnail = await fileDeleteFromCloudinary(course.thumbnailImg,"image")
+            await fileDeleteFromCloudinary(course.thumbnailImg,"image")
         }catch(err){
             return res.status(400).json({
                 success : false,

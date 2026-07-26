@@ -24,7 +24,8 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:3001",
   "https://study-notion-git-601882-abhishek-kumar-singhs-projects-f864c1bd.vercel.app",
-  "https://studynotion-aksingh.vercel.app"
+  "https://studynotion-aksingh.vercel.app",
+  "https://site--studynotion--zzxsbt7fvqyx.code.run"
 ];
 
 // middlewares
